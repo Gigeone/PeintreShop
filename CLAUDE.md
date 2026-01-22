@@ -10,7 +10,7 @@ Site e-commerce moderne pour une artiste peintre permettant d'exposer et vendre 
 
 **Stack Technique :**
 
-- Frontend : Next.js 14+ (App Router), TypeScript, Tailwind CSS
+- Frontend : Next.js 14+ (App Router), TypeScript, Tailwind CSS,
 - CMS : Sanity (gestion des œuvres et contenus)
 - Paiement : Stripe Checkout avec webhooks
 - Hébergement : Vercel (CI/CD automatique)
