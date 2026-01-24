@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { artworks } from "@/data/artworks";
 
 export default function GaleriePage() {
@@ -60,9 +61,12 @@ export default function GaleriePage() {
                   </span>
                 </div>
 
-                <button className="w-full py-2 bg-pastel-rose-mauve text-white rounded-lg font-medium hover:bg-pastel-lavender transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                <Link
+                  href={`/oeuvres/${artwork.slug}`}
+                  className="block w-full py-2 bg-pastel-rose-mauve text-white rounded-lg font-medium hover:bg-pastel-lavender transition-colors duration-300 text-center"
+                >
                   Voir les détails
-                </button>
+                </Link>
               </div>
             </div>
           ))}
