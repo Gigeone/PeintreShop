@@ -110,3 +110,286 @@ Tu dois automatiquement utiliser ces outils **sans que je doive le demander expl
     R1-MUST-display-gallery:
       SHALL: Le système doit afficher la galerie d'œuvres disponibles
   ```
+
+## Commandes NPM
+
+### Développement
+
+```bash
+# Démarrer le serveur de développement (avec Turbopack)
+npm run dev
+
+# Linter le code
+npm run lint
+
+# Build de production
+npm run build
+
+# Démarrer le serveur de production
+npm run start
+```
+
+### Installation de dépendances
+
+```bash
+# Installer toutes les dépendances
+npm install
+
+# Ajouter une nouvelle dépendance
+npm install <package-name>
+
+# Ajouter une dépendance de développement
+npm install -D <package-name>
+```
+
+## Bonnes Pratiques React
+
+### Composants Réutilisables
+
+**Principes :**
+
+- **Single Responsibility** : Un composant = une responsabilité
+- **Composition over Configuration** : Privilégier la composition plutôt que les props complexes
+- **Props Interface** : Toujours typer les props avec TypeScript
+- **Default Props** : Utiliser les valeurs par défaut ES6 `= valeur`
+
+**Structure d'un composant :**
+
+```tsx
+// types/button.ts ou dans le même fichier
+interface ButtonProps {
+  variant?: "default" | "outline" | "ghost";
+  size?: "sm" | "default" | "lg";
+  children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
+}
+
+// components/ui/Button.tsx
+export function Button({
+  variant = "default",
+  size = "default",
+  children,
+  className,
+  onClick,
+}: ButtonProps) {
+  return (
+    <button
+      className={cn(
+        baseStyles,
+        variantStyles[variant],
+        sizeStyles[size],
+        className,
+      )}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+}
+```
+
+### Hooks Personnalisés
+
+**Nommage :** Toujours préfixer avec `use`
+
+**Extraction de logique :**
+
+```tsx
+// hooks/useCarousel.ts
+function useCarousel(itemsCount: number, autoPlayInterval = 5000) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const next = () => setCurrentIndex((prev) => (prev + 1) % itemsCount);
+  const prev = () =>
+    setCurrentIndex((prev) => (prev - 1 + itemsCount) % itemsCount);
+
+  // Auto-play logic
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(next, autoPlayInterval);
+    return () => clearInterval(interval);
+  }, [currentIndex, isPaused]);
+
+  return { currentIndex, next, prev, setIsPaused };
+}
+```
+
+### Optimisation des Performances
+
+**Mémoïzation :**
+
+```tsx
+// Mémoriser des calculs coûteux
+const expensiveValue = useMemo(() => computeExpensiveValue(data), [data]);
+
+// Mémoriser des callbacks
+const handleClick = useCallback(() => {
+  doSomething(id);
+}, [id]);
+
+// Mémoriser des composants
+const MemoizedComponent = React.memo(MyComponent);
+```
+
+**Images Next.js :**
+
+```tsx
+import Image from "next/image";
+
+<Image
+  src={artwork.imageUrl}
+  alt={artwork.title}
+  width={800}
+  height={600}
+  className="object-cover"
+  priority // Pour les images above the fold
+  placeholder="blur" // Optionnel avec blurDataURL
+/>;
+```
+
+### Gestion d'État
+
+**useState pour état local :**
+
+```tsx
+const [isOpen, setIsOpen] = useState(false);
+const [formData, setFormData] = useState({ name: "", email: "" });
+```
+
+**useReducer pour état complexe :**
+
+```tsx
+type Action =
+  | { type: "ADD_ITEM"; item: Item }
+  | { type: "REMOVE_ITEM"; id: string };
+
+function cartReducer(state: CartState, action: Action) {
+  switch (action.type) {
+    case "ADD_ITEM":
+      return { ...state, items: [...state.items, action.item] };
+    case "REMOVE_ITEM":
+      return { ...state, items: state.items.filter((i) => i.id !== action.id) };
+  }
+}
+
+const [cart, dispatch] = useReducer(cartReducer, initialState);
+```
+
+### Composition de Composants
+
+**Pattern Children :**
+
+```tsx
+function Card({ children }: { children: React.ReactNode }) {
+  return <div className="card">{children}</div>;
+}
+
+<Card>
+  <CardHeader />
+  <CardContent />
+  <CardFooter />
+</Card>;
+```
+
+**Pattern Render Props :**
+
+```tsx
+function DataFetcher({ render }: { render: (data: Data) => React.ReactNode }) {
+  const [data, setData] = useState<Data | null>(null);
+
+  useEffect(() => {
+    fetchData().then(setData);
+  }, []);
+
+  return data ? render(data) : <Loading />;
+}
+
+<DataFetcher render={(data) => <Display data={data} />} />;
+```
+
+### Conventions de Nommage
+
+- **Composants** : PascalCase (`Button`, `ArtworkCard`)
+- **Hooks** : camelCase avec préfixe `use` (`useCarousel`, `useArtworks`)
+- **Utilitaires** : camelCase (`formatPrice`, `cn`)
+- **Constantes** : UPPER_SNAKE_CASE (`MAX_ITEMS`, `API_URL`)
+- **Types/Interfaces** : PascalCase (`Artwork`, `ButtonProps`)
+
+## Organisation des Fichiers
+
+### Structure Recommandée
+
+```
+src/
+├── app/                    # Pages Next.js (App Router)
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── galerie/
+│       └── page.tsx
+├── components/             # Composants réutilisables
+│   ├── ui/                # Composants UI primitifs
+│   │   ├── button.tsx
+│   │   └── card.tsx
+│   ├── Navbar.tsx         # Composants métier
+│   └── FeaturedCarousel.tsx
+├── lib/                   # Utilitaires et helpers
+│   ├── utils.ts
+│   └── constants.ts
+├── types/                 # Définitions TypeScript
+│   ├── artwork.ts
+│   └── api.ts
+├── data/                  # Données mockées (MVP)
+│   └── artworks.ts
+└── hooks/                 # Hooks personnalisés
+    └── useCarousel.ts
+```
+
+### Imports
+
+**Ordre des imports :**
+
+```tsx
+// 1. Imports externes
+import { useState, useEffect } from "react";
+import Image from "next/image";
+
+// 2. Imports internes absolus (via alias @/)
+import { Button } from "@/components/ui/button";
+import { Artwork } from "@/types/artwork";
+
+// 3. Imports relatifs
+import { formatPrice } from "./utils";
+
+// 4. Imports de styles
+import "./styles.css";
+```
+
+## Validation et Qualité du Code
+
+### Linting
+
+**ESLint automatique :**
+
+- Respecter les règles Next.js
+- Pas de `console.log` en production
+- Gérer tous les cas d'erreur
+
+### Type-Safety
+
+**Avant chaque commit :**
+
+- Aucune erreur TypeScript (`tsc --noEmit`)
+- Tous les props typés
+- Pas de `any` non justifié
+
+### Accessibilité
+
+**Bonnes pratiques :**
+
+- Attributs `alt` sur toutes les images
+- Labels sur les inputs
+- Boutons avec texte ou `aria-label`
+- Navigation au clavier
+- Contraste suffisant (WCAG AA minimum)
