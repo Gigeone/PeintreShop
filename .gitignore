@@ -12,6 +12,7 @@ yarn-error.log*
 # Build outputs
 dist/
 build/
+.next/
 *.log
 
 # OS files
@@ -23,3 +24,5 @@ Thumbs.db
 .idea/
 
 # IMPORTANT: .claude/ is INCLUDED (not ignored) to share Claude Code configuration
+# But local settings should not be shared
+.claude/settings.local.json
