@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { artworks } from "@/data/artworks";
+import { getArtworkBySlug, getAllArtworks } from "@/lib/sanity";
 import { Button } from "@/components/ui/button";
 import type { Metadata } from "next";
 
@@ -13,7 +13,7 @@ export async function generateMetadata({
   params,
 }: ArtworkDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const artwork = artworks.find((a) => a.slug === slug);
+  const artwork = await getArtworkBySlug(slug);
 
   if (!artwork) {
     return {
@@ -43,18 +43,19 @@ export default async function ArtworkDetailPage({
   params,
 }: ArtworkDetailPageProps) {
   const { slug } = await params;
-  const artwork = artworks.find((a) => a.slug === slug);
+  const artwork = await getArtworkBySlug(slug);
 
   if (!artwork) {
     notFound();
   }
 
   // Navigation circulaire
-  const currentIndex = artworks.findIndex((a) => a.slug === slug);
-  const prevIndex = (currentIndex - 1 + artworks.length) % artworks.length;
-  const nextIndex = (currentIndex + 1) % artworks.length;
-  const prevArtwork = artworks[prevIndex];
-  const nextArtwork = artworks[nextIndex];
+  const allArtworks = await getAllArtworks();
+  const currentIndex = allArtworks.findIndex((a: any) => a.slug === slug);
+  const prevIndex = (currentIndex - 1 + allArtworks.length) % allArtworks.length;
+  const nextIndex = (currentIndex + 1) % allArtworks.length;
+  const prevArtwork = allArtworks[prevIndex];
+  const nextArtwork = allArtworks[nextIndex];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pastel-blue-bg to-pastel-rose-bg">
@@ -87,7 +88,7 @@ export default async function ArtworkDetailPage({
             <div className="relative aspect-square rounded-xl overflow-hidden shadow-2xl bg-white/50 backdrop-blur-sm">
               <Image
                 src={artwork.imageUrl}
-                alt={artwork.title}
+                alt={artwork.imageAlt || artwork.title}
                 fill
                 className="object-cover"
                 priority
@@ -188,7 +189,7 @@ export default async function ArtworkDetailPage({
           </Link>
 
           <span className="text-pastel-gray-text/60 text-sm">
-            {currentIndex + 1} / {artworks.length}
+            {currentIndex + 1} / {allArtworks.length}
           </span>
 
           <Link

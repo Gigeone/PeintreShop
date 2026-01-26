@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { artworks } from "@/data/artworks";
+import { getAllArtworks } from "@/lib/sanity";
 
-export default function GaleriePage() {
+export default async function GaleriePage() {
+  const artworks = await getAllArtworks();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-pastel-blue-bg to-pastel-rose-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -15,16 +17,16 @@ export default function GaleriePage() {
 
         {/* Grid des œuvres */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {artworks.map((artwork) => (
+          {artworks.map((artwork: any) => (
             <div
-              key={artwork.id}
+              key={artwork._id}
               className="bg-white/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
             >
               {/* Image optimisée */}
               <div className="relative aspect-square overflow-hidden">
                 <Image
                   src={artwork.imageUrl}
-                  alt={artwork.title}
+                  alt={artwork.imageAlt || artwork.title}
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"

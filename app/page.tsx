@@ -1,7 +1,11 @@
 import Image from "next/image";
 import FeaturedCarousel from "@/components/FeaturedCarousel";
+import { getFeaturedArtworks, getAvailableArtworkCount } from "@/lib/sanity";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const featuredArtworks = await getFeaturedArtworks();
+  const artworkCount = await getAvailableArtworkCount();
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -48,7 +52,7 @@ export default function HomePage() {
       </div>
 
       {/* Carrousel des œuvres en vedette */}
-      <FeaturedCarousel />
+      <FeaturedCarousel artworks={featuredArtworks} />
 
       {/* Section À propos */}
       <div className="bg-white">
@@ -91,7 +95,7 @@ export default function HomePage() {
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-pastel-lavender rounded-full flex items-center justify-center text-white font-bold text-xl">
-                    9
+                    {artworkCount}
                   </div>
                   <div>
                     <p className="text-lg font-semibold text-pastel-gray-text">

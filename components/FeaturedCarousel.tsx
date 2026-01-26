@@ -3,13 +3,15 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { artworks } from "@/data/artworks";
 import { Button } from "@/components/ui/button";
 
 const AUTOPLAY_INTERVAL = 5000; // 5 secondes
 
-export default function FeaturedCarousel() {
-  const featuredArtworks = artworks.filter((artwork) => artwork.isFeatured);
+interface FeaturedCarouselProps {
+  artworks: any[];
+}
+
+export default function FeaturedCarousel({ artworks: featuredArtworks }: FeaturedCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
 
@@ -76,7 +78,7 @@ export default function FeaturedCarousel() {
             <div className="relative">
               {featuredArtworks.map((artwork, index) => (
                 <div
-                  key={artwork.id}
+                  key={artwork._id}
                   className={`transition-opacity duration-500 ${
                     index === currentIndex ? "opacity-100" : "opacity-0 absolute inset-0"
                   }`}
@@ -86,7 +88,7 @@ export default function FeaturedCarousel() {
                     <div className="relative aspect-square overflow-hidden">
                       <Image
                         src={artwork.imageUrl}
-                        alt={artwork.title}
+                        alt={artwork.imageAlt || artwork.title}
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 448px"
