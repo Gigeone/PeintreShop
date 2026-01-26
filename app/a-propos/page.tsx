@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function AProposPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pastel-rose-bg via-white to-pastel-blue-bg">
@@ -8,7 +10,15 @@ export default function AProposPage() {
 
         <div className="bg-white/70 backdrop-blur-sm rounded-xl p-8 shadow-lg mb-8">
           <div className="flex flex-col md:flex-row gap-8 items-center mb-8">
-            <div className="w-48 h-48 rounded-full bg-gradient-to-br from-pastel-rose-mauve to-pastel-lavender flex-shrink-0" />
+            <div className="relative w-48 h-48 rounded-full overflow-hidden flex-shrink-0 shadow-xl">
+              <Image
+                src="/images/artist-photo.jpg"
+                alt="Portrait de l'artiste MNGH"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
             <div>
               <h2 className="text-3xl font-semibold text-pastel-gray-text mb-4">
                 MNGH
