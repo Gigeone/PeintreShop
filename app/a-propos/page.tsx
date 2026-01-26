@@ -14,9 +14,10 @@ export default function AProposPage() {
                 MNGH
               </h2>
               <p className="text-lg text-pastel-gray-text leading-relaxed">
-                Artiste peintre passionnée, je crée des œuvres uniques qui capturent l'émotion
-                et la beauté du monde qui m'entoure. Mon travail explore les couleurs douces
-                et les formes organiques.
+                Artiste peintre autodidacte, je me consacre à la création d'œuvres originales
+                depuis plus de 15 ans. Ma palette privilégie les tons pastels et harmonieux,
+                créant des compositions qui invitent à la contemplation et à l'évasion.
+                Chaque toile est le reflet d'une émotion, d'un instant capturé ou d'un rêve éveillé.
               </p>
             </div>
           </div>
@@ -27,8 +28,10 @@ export default function AProposPage() {
                 Ma démarche artistique
               </h3>
               <p className="text-pastel-gray-text leading-relaxed">
-                Contenu à définir avec l'artiste. Cette section présentera la philosophie
-                artistique, les inspirations et la démarche créative.
+                Mon travail se nourrit d'observations quotidiennes, de voyages et de moments d'introspection.
+                Je cherche à créer un dialogue entre l'abstrait et le figuratif, où les formes se dévoilent
+                progressivement au regard. Ma démarche privilégie l'intuition et l'émotion plutôt que la
+                représentation fidèle, laissant place à l'interprétation personnelle de chaque spectateur.
               </p>
             </div>
 
@@ -37,8 +40,10 @@ export default function AProposPage() {
                 Techniques utilisées
               </h3>
               <p className="text-pastel-gray-text leading-relaxed">
-                Information sur les techniques de peinture, les médiums utilisés
-                (acrylique, huile, aquarelle, etc.) et les supports privilégiés.
+                Je travaille principalement à l'acrylique sur toile, une technique qui me permet de jouer
+                avec les transparences et les superpositions. J'utilise également l'aquarelle pour des créations
+                plus spontanées et légères. Mes œuvres sont réalisées sur toiles de lin ou de coton,
+                préparées avec soin, et protégées par un vernis de qualité muséale pour une conservation optimale.
               </p>
             </div>
 
@@ -47,7 +52,11 @@ export default function AProposPage() {
                 Expositions et parcours
               </h3>
               <p className="text-pastel-gray-text leading-relaxed">
-                Liste des expositions passées, collaborations et moments clés du parcours artistique.
+                Après des années de pratique en atelier, j'ai présenté mes œuvres dans plusieurs
+                expositions collectives en France. Mes toiles ont trouvé leur place dans des collections
+                privées en Europe et au-delà. Aujourd'hui, je me concentre sur la création d'œuvres originales
+                disponibles exclusivement en ligne, permettant à chacun de découvrir et d'acquérir mes créations
+                depuis n'importe où dans le monde.
               </p>
             </div>
           </div>
