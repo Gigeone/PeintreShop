@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getArtworkBySlug, getAllArtworks } from "@/lib/sanity";
-import { Button } from "@/components/ui/button";
+import { BuyButton } from "@/components/BuyButton";
 import type { Metadata } from "next";
 
 interface ArtworkDetailPageProps {
@@ -148,20 +148,11 @@ export default async function ArtworkDetailPage({
             </div>
 
             {/* Bouton acheter */}
-            {artwork.isAvailable ? (
-              <Link href="/contact" className="block">
-                <Button className="w-full bg-pastel-rose-mauve hover:bg-pastel-lavender text-white text-lg py-6">
-                  Acheter cette œuvre
-                </Button>
-              </Link>
-            ) : (
-              <Button
-                disabled
-                className="w-full text-lg py-6 opacity-50 cursor-not-allowed"
-              >
-                Œuvre vendue
-              </Button>
-            )}
+            <BuyButton
+              artworkId={artwork._id}
+              artworkTitle={artwork.title}
+              isAvailable={artwork.isAvailable}
+            />
           </div>
         </div>
 

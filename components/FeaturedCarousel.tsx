@@ -11,7 +11,9 @@ interface FeaturedCarouselProps {
   artworks: any[];
 }
 
-export default function FeaturedCarousel({ artworks: featuredArtworks }: FeaturedCarouselProps) {
+export default function FeaturedCarousel({
+  artworks: featuredArtworks,
+}: FeaturedCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
 
@@ -33,7 +35,7 @@ export default function FeaturedCarousel({ artworks: featuredArtworks }: Feature
 
   const goToPrev = () => {
     setCurrentIndex(
-      (prev) => (prev - 1 + featuredArtworks.length) % featuredArtworks.length
+      (prev) => (prev - 1 + featuredArtworks.length) % featuredArtworks.length,
     );
   };
 
@@ -80,7 +82,9 @@ export default function FeaturedCarousel({ artworks: featuredArtworks }: Feature
                 <div
                   key={artwork._id}
                   className={`transition-opacity duration-500 ${
-                    index === currentIndex ? "opacity-100" : "opacity-0 absolute inset-0"
+                    index === currentIndex
+                      ? "opacity-100"
+                      : "opacity-0 absolute inset-0"
                   }`}
                 >
                   <div className="bg-white/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 mx-auto max-w-md">
@@ -97,7 +101,7 @@ export default function FeaturedCarousel({ artworks: featuredArtworks }: Feature
                     </div>
 
                     {/* Informations */}
-                    <div className="p-6">
+                    {/* <div className="p-6">
                       <h3 className="text-xl font-semibold text-pastel-gray-text mb-2">
                         {artwork.title}
                       </h3>
@@ -122,7 +126,7 @@ export default function FeaturedCarousel({ artworks: featuredArtworks }: Feature
                       <Button className="w-full" asChild>
                         <Link href="/galerie">Voir les détails</Link>
                       </Button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               ))}

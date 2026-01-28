@@ -1,6 +1,6 @@
-import Image from "next/image";
 import FeaturedCarousel from "@/components/FeaturedCarousel";
-import { getFeaturedArtworks, getAvailableArtworkCount } from "@/lib/sanity";
+import { getAvailableArtworkCount, getFeaturedArtworks } from "@/lib/sanity";
+import Image from "next/image";
 
 export default async function HomePage() {
   const featuredArtworks = await getFeaturedArtworks();
@@ -27,11 +27,11 @@ export default async function HomePage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="text-center">
             <h1 className="text-5xl md:text-6xl font-bold text-pastel-rose-mauve mb-6 drop-shadow-lg">
-              Bienvenue sur MNGH
+              Bienvenue dans la galerie de MNGH
             </h1>
             <p className="text-xl text-pastel-gray-text mb-8 max-w-2xl mx-auto drop-shadow">
-              Découvrez des œuvres d'art originales et uniques créées avec passion.
-              Chaque pièce raconte une histoire.
+              Découvrez des œuvres d'art originales et uniques créées avec
+              passion. Chaque pièce raconte une histoire.
             </p>
             <div className="flex gap-4 justify-center">
               <a
@@ -63,12 +63,13 @@ export default async function HomePage() {
                 L'Art au Cœur de la Création
               </h2>
               <p className="text-lg text-pastel-gray-text mb-4">
-                Chaque œuvre est unique, créée à la main avec passion et attention
-                aux détails. De l'inspiration initiale à la touche finale, chaque
-                pièce raconte une histoire personnelle.
+                Chaque œuvre est unique, créée à la main avec passion et
+                attention aux détails. De l'inspiration initiale à la touche
+                finale, chaque pièce raconte une histoire personnelle.
               </p>
               <p className="text-lg text-pastel-gray-text mb-6">
-                Explorez la collection et trouvez l'œuvre qui résonnera avec vous.
+                Explorez la collection et trouvez l'œuvre qui résonnera avec
+                vous.
               </p>
               <a
                 href="/a-propos"
