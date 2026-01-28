@@ -19,6 +19,7 @@
     "next-sanity": "^9.11.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "resend": "^4.0.1",
     "stripe": "^17.4.0",
     "tailwind-merge": "^3.4.0"
   },
