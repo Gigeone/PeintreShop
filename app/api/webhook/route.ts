@@ -6,6 +6,7 @@ import {
   WebhookErrorResponse,
   ArtworkMetadata,
 } from "@/types/webhook";
+import { sendTransactionEmails } from "@/lib/email/send";
 import Stripe from "stripe";
 
 /**
@@ -18,7 +19,10 @@ import Stripe from "stripe";
  * 3. Extrait les metadata (artworkId)
  * 4. Vérifie que l'œuvre est disponible (protection race condition)
  * 5. Met à jour isAvailable: false dans Sanity
- * 6. Retourne 200 (succès) ou 500 (échec pour retry Stripe)
+ * 6. Envoie les emails de confirmation (client + artiste)
+ * 7. Retourne 200 (succès) ou 500 (échec pour retry Stripe)
+ *
+ * Note : L'envoi d'emails ne bloque jamais le processus de paiement
  */
 export async function POST(request: NextRequest) {
   // 1. Lire le body brut (requis pour validation signature Stripe)
@@ -98,16 +102,26 @@ export async function POST(request: NextRequest) {
   console.log(`✓ Processing payment for artwork: ${artworkId}`);
 
   try {
-    // 7. Récupérer l'œuvre depuis Sanity
+    // 7. Récupérer l'œuvre depuis Sanity (avec infos pour emails)
     const artwork = await client.fetch<{
       _id: string;
       title: string;
       isAvailable: boolean;
+      price: number;
+      slug: { current: string };
+      imageUrl?: string;
+      dimensions?: string;
+      technique?: string;
     } | null>(
       `*[_type == "artwork" && _id == $artworkId][0]{
         _id,
         title,
-        isAvailable
+        isAvailable,
+        price,
+        slug,
+        dimensions,
+        technique,
+        "imageUrl": image.asset->url
       }`,
       { artworkId }
     );
@@ -138,7 +152,52 @@ export async function POST(request: NextRequest) {
 
     console.log(`✓ Artwork ${artworkId} (${artwork.title}) marked as sold`);
 
-    // 10. Retourner succès
+    // 10. Envoyer les emails de confirmation (ne doit pas bloquer le processus)
+    try {
+      // Extraire les informations client depuis Stripe
+      const customerEmail = session.customer_details?.email;
+      const customerName =
+        session.customer_details?.name || "Client";
+
+      // Envoyer les emails uniquement si on a l'email client
+      if (customerEmail) {
+        await sendTransactionEmails(
+          // Email de confirmation client
+          {
+            customerEmail,
+            customerName,
+            artworkTitle: artwork.title,
+            artworkPrice: artwork.price,
+            artworkImageUrl: artwork.imageUrl,
+            artworkDimensions: artwork.dimensions,
+            artworkTechnique: artwork.technique,
+            sessionId: session.id,
+          },
+          // Email de notification artiste
+          {
+            artworkTitle: artwork.title,
+            artworkSlug: artwork.slug.current,
+            artworkPrice: artwork.price,
+            customerName,
+            customerEmail,
+            sessionId: session.id,
+          }
+        );
+      } else {
+        console.warn(
+          `⚠ Missing customer email (session: ${session.id}), skipping emails`
+        );
+      }
+    } catch (emailError) {
+      // Logger l'erreur mais ne pas bloquer le webhook
+      console.error(
+        `✗ Email sending failed (session: ${session.id}):`,
+        emailError
+      );
+      // Continue quand même - le paiement est validé
+    }
+
+    // 11. Retourner succès
     return NextResponse.json({
       received: true,
       artworkId,

@@ -234,6 +234,85 @@ Erreur 500 retournée et Stripe planifie des retries automatiques.
 
 ---
 
+### Test 6 : Envoi d'Emails (V1 Sprint 2)
+
+**Objectif** : Vérifier que les emails de confirmation sont envoyés après une vente
+
+**Prérequis** :
+- Service email configuré (voir [EMAIL_SETUP.md](./EMAIL_SETUP.md))
+- Variables d'environnement :
+  - `RESEND_API_KEY`
+  - `EMAIL_FROM`
+  - `ARTIST_EMAIL`
+
+**Étapes** :
+
+1. **Configurer les variables d'environnement**
+   ```bash
+   # Dans .env.local
+   RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxx
+   EMAIL_FROM=noreply@votre-domaine.com
+   ARTIST_EMAIL=artiste@votre-domaine.com
+   ```
+
+2. **Redémarrer Next.js**
+   ```bash
+   # Ctrl+C puis
+   npm run dev
+   ```
+
+3. **Déclencher un webhook test avec Stripe CLI**
+   ```bash
+   stripe trigger checkout.session.completed
+   ```
+
+4. **Vérifier les logs Next.js**
+   ```
+   ✓ Artwork abc-123 (Titre) marked as sold
+   ✓ Email sent to customer@example.com (confirmation, session: cs_123)
+   ✓ Email sent to artist@example.com (notification, session: cs_123)
+   ```
+
+5. **Vérifier la réception des emails**
+   - Ouvrir votre boîte mail (client)
+   - Vérifier l'email "Merci pour votre achat - [Titre]"
+   - Ouvrir la boîte mail artiste
+   - Vérifier l'email "🎨 Nouvelle vente : [Titre]"
+
+6. **Vérifier le Dashboard Resend**
+   - Aller sur [resend.com/emails](https://resend.com/emails)
+   - Voir les 2 emails avec statut "Delivered"
+
+**✅ Succès attendu** :
+- Webhook retourne 200
+- Œuvre marquée comme vendue
+- 2 emails envoyés et reçus
+- Logs sans erreur
+
+**Test d'échec email** :
+
+1. **Tester avec email service désactivé**
+   ```bash
+   # Commenter RESEND_API_KEY dans .env.local
+   # RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxx
+   ```
+
+2. **Redémarrer Next.js et déclencher un webhook**
+   ```bash
+   stripe trigger checkout.session.completed
+   ```
+
+3. **Vérifier le comportement**
+   - Webhook retourne quand même 200 ✅
+   - Œuvre marquée comme vendue ✅
+   - Logs : `⚠ Email not configured, skipping customer confirmation`
+   - Aucun email envoyé (normal)
+
+**✅ Succès attendu** :
+Le webhook réussit même sans email configuré. Les emails sont un bonus, pas bloquants.
+
+---
+
 ## 📊 Vérifications Finales
 
 ### Checklist de Validation
@@ -243,6 +322,8 @@ Erreur 500 retournée et Stripe planifie des retries automatiques.
 - [ ] **Test 3** : Idempotence (œuvre déjà vendue) OK
 - [ ] **Test 4** : Signature invalide rejetée (400)
 - [ ] **Test 5** : Artwork introuvable retourne 500
+- [ ] **Test 6** : Emails envoyés et reçus (client + artiste)
+- [ ] **Test 6 bis** : Webhook réussit même si email échoue
 - [ ] **Compilation** : `npm run build` sans erreur
 - [ ] **Linting** : `npm run lint` sans erreur
 - [ ] **Logs** : Tous les événements sont loggés correctement
