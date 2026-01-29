@@ -14,6 +14,7 @@ import { client } from './client'
 const artworkProjection = `
   _id,
   _createdAt,
+  _updatedAt,
   title,
   "slug": slug.current,
   description,

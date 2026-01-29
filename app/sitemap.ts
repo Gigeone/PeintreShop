@@ -49,7 +49,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const artworks = await getAllArtworks();
 
-    const artworkRoutes: MetadataRoute.Sitemap = artworks.map((artwork) => ({
+    const artworkRoutes: MetadataRoute.Sitemap = artworks.map((artwork: any) => ({
       url: `${siteUrl}/oeuvres/${artwork.slug}`,
       lastModified: artwork._updatedAt || currentDate,
       changeFrequency: "monthly" as const,

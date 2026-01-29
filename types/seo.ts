@@ -101,7 +101,7 @@ export interface OpenGraphParams {
     height?: number;
     alt?: string;
   }>;
-  type?: "website" | "article" | "product";
+  type?: "website" | "article";
   siteName?: string;
   locale?: string;
 }
@@ -133,5 +133,5 @@ export interface MetadataParams {
     height?: number;
     alt?: string;
   }>;
-  type?: "website" | "article" | "product";
+  type?: "website" | "article";
 }
