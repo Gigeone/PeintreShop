@@ -20,6 +20,15 @@ const config: Config = {
           'violet-logo': '#C5A8D4',
         },
       },
+      animation: {
+        fadeIn: 'fadeIn 0.2s ease-in-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+      },
     },
   },
   plugins: [],

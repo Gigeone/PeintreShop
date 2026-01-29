@@ -57,7 +57,7 @@ export default async function GaleriePage() {
                   src={artwork.imageUrl}
                   alt={artwork.imageAlt || artwork.title}
                   fill
-                  className="object-contain"
+                  className="object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>

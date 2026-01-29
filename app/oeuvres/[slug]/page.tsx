@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { getArtworkBySlug, getAllArtworks } from "@/lib/sanity";
 import { BuyButton } from "@/components/BuyButton";
+import { ImageZoom } from "@/components/ImageZoom";
 import type { Metadata } from "next";
 import { getSiteUrl } from "@/lib/seo/metadata";
 import { generateProductSchema, generateBreadcrumbSchema } from "@/lib/seo/schema";
@@ -124,16 +124,11 @@ export default async function ArtworkDetailPage({
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
           {/* Image de l'œuvre (60% desktop) */}
           <div className="lg:col-span-3">
-            <div className="relative aspect-square rounded-xl overflow-hidden shadow-2xl bg-white p-8">
-              <Image
-                src={artwork.imageUrl}
-                alt={artwork.imageAlt || artwork.title}
-                fill
-                className="object-contain"
-                priority
-                sizes="(max-width: 1024px) 100vw, 60vw"
-              />
-            </div>
+            <ImageZoom
+              src={artwork.imageUrl}
+              alt={artwork.imageAlt || artwork.title}
+              priority
+            />
           </div>
 
           {/* Informations de l'œuvre (40% desktop) */}
