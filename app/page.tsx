@@ -2,13 +2,31 @@ import FeaturedCarousel from "@/components/FeaturedCarousel";
 import { getAvailableArtworkCount, getFeaturedArtworks } from "@/lib/sanity";
 import Image from "next/image";
 import Link from "next/link";
+import { generateWebSiteSchema, generateOrganizationSchema } from "@/lib/seo/schema";
+import { getSiteUrl } from "@/lib/seo/metadata";
 
 export default async function HomePage() {
   const featuredArtworks = await getFeaturedArtworks();
   const artworkCount = await getAvailableArtworkCount();
+  const siteUrl = getSiteUrl();
+
+  // Générer les schemas JSON-LD
+  const websiteSchema = generateWebSiteSchema(siteUrl);
+  const organizationSchema = generateOrganizationSchema(siteUrl);
 
   return (
-    <div className="min-h-screen">
+    <>
+      {/* Schema.org JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+
+      <div className="min-h-screen">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         {/* Image de fond */}
@@ -140,5 +158,6 @@ export default async function HomePage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

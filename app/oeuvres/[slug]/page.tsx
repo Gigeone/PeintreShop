@@ -4,6 +4,8 @@ import Link from "next/link";
 import { getArtworkBySlug, getAllArtworks } from "@/lib/sanity";
 import { BuyButton } from "@/components/BuyButton";
 import type { Metadata } from "next";
+import { getSiteUrl } from "@/lib/seo/metadata";
+import { generateProductSchema, generateBreadcrumbSchema } from "@/lib/seo/schema";
 
 interface ArtworkDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -21,14 +23,28 @@ export async function generateMetadata({
     };
   }
 
+  const siteUrl = getSiteUrl();
+  const canonicalUrl = `${siteUrl}/oeuvres/${artwork.slug}`;
+
   return {
-    title: `${artwork.title} - MNGH`,
+    title: artwork.title,
     description: artwork.description.slice(0, 160),
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: artwork.title,
       description: artwork.description,
-      images: [{ url: artwork.imageUrl }],
-      type: "website",
+      images: [{
+        url: artwork.imageUrl,
+        width: 1200,
+        height: 1200,
+        alt: artwork.imageAlt || artwork.title,
+      }],
+      type: "product",
+      url: canonicalUrl,
+      siteName: "MNGH - Artiste Peintre",
+      locale: "fr_FR",
     },
     twitter: {
       card: "summary_large_image",
@@ -57,8 +73,31 @@ export default async function ArtworkDetailPage({
   const prevArtwork = allArtworks[prevIndex];
   const nextArtwork = allArtworks[nextIndex];
 
+  const siteUrl = getSiteUrl();
+
+  // Schema.org Product
+  const productSchema = generateProductSchema(artwork, siteUrl);
+
+  // Schema.org Breadcrumb
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Accueil", item: siteUrl },
+    { name: "Galerie", item: `${siteUrl}/galerie` },
+    { name: artwork.title, item: `${siteUrl}/oeuvres/${artwork.slug}` },
+  ]);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pastel-blue-bg to-pastel-rose-bg">
+    <>
+      {/* Schema.org JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
+      <div className="min-h-screen bg-gradient-to-br from-pastel-blue-bg to-pastel-rose-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         {/* Bouton retour galerie */}
         <Link
@@ -206,5 +245,6 @@ export default async function ArtworkDetailPage({
         </div>
       </div>
     </div>
+    </>
   );
 }

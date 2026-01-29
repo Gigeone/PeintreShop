@@ -1,8 +1,27 @@
 import Image from "next/image";
+import type { Metadata } from "next";
+import { generatePageMetadata, getSiteUrl } from "@/lib/seo/metadata";
+import { generateOrganizationSchema } from "@/lib/seo/schema";
+
+export const metadata: Metadata = generatePageMetadata({
+  title: "À Propos",
+  description: "Découvrez l'artiste peintre MNGH, son parcours, sa passion pour l'art et sa démarche créative unique.",
+  path: "/a-propos",
+});
 
 export default function AProposPage() {
+  const siteUrl = getSiteUrl();
+  const organizationSchema = generateOrganizationSchema(siteUrl);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pastel-rose-bg via-white to-pastel-blue-bg">
+    <>
+      {/* Schema.org JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+
+      <div className="min-h-screen bg-gradient-to-br from-pastel-rose-bg via-white to-pastel-blue-bg">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <h1 className="text-5xl font-bold text-pastel-violet-logo mb-6">
           À propos de l'Artiste
@@ -73,5 +92,6 @@ export default function AProposPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

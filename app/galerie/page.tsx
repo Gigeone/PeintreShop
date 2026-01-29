@@ -1,12 +1,41 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { getAllArtworks } from "@/lib/sanity";
+import { generatePageMetadata, getSiteUrl } from "@/lib/seo/metadata";
+import { generateBreadcrumbSchema } from "@/lib/seo/schema";
+
+export const metadata: Metadata = generatePageMetadata({
+  title: "Galerie d'Œuvres",
+  description: "Explorez notre collection d'œuvres d'art originales et uniques. Chaque pièce est créée avec passion et disponible à l'achat.",
+  path: "/galerie",
+  images: [{
+    url: `${getSiteUrl()}/og-galerie.jpg`,
+    width: 1200,
+    height: 630,
+    alt: "Galerie d'œuvres MNGH",
+  }],
+});
 
 export default async function GaleriePage() {
   const artworks = await getAllArtworks();
+  const siteUrl = getSiteUrl();
+
+  // Schema.org Breadcrumb
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Accueil", item: siteUrl },
+    { name: "Galerie", item: `${siteUrl}/galerie` },
+  ]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pastel-blue-bg to-pastel-rose-bg">
+    <>
+      {/* Schema.org JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
+      <div className="min-h-screen bg-gradient-to-br from-pastel-blue-bg to-pastel-rose-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <h1 className="text-5xl font-bold text-pastel-lavender mb-6">
           Galerie d'Œuvres
@@ -75,5 +104,6 @@ export default async function GaleriePage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
