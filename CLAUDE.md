@@ -1,115 +1,111 @@
-## Objectif du Projet
+# Instructions de Développement - Claude Code
 
-Site e-commerce moderne pour une artiste peintre permettant d'exposer et vendre des œuvres originales en ligne. Développement en 3 phases :
+> Ce document contient les **conventions, workflows et bonnes pratiques** pour travailler sur ce projet.
 
-- **MVP** : Prototype crédible avec données mockées
-- **V1** : Produit vendable avec CMS, paiements et gestion de stock
-- **V2** : Plateforme professionnelle avec dashboard, statistiques et fonctionnalités avancées
+## 📚 Documents de Référence
 
-## Architecture Globale
+Avant de commencer, consulte ces documents :
 
-**Stack Technique :**
+- **[@PRD.md](./PRD.md)** → QUOI construire (roadmap produit, fonctionnalités MVP/V1/V2)
+- **[@ARCHITECTURE.md](./ARCHITECTURE.md)** → COMMENT c'est construit (stack, schémas, infrastructure)
+- **[openspec/project.md](./openspec/project.md)** → Contexte projet OpenSpec
+- **[openspec/AGENTS.md](./openspec/AGENTS.md)** → Workflow OpenSpec
 
-- Frontend : Next.js 14+ (App Router), TypeScript, Tailwind CSS,
-- CMS : Sanity (gestion des œuvres et contenus)
-- Paiement : Stripe Checkout avec webhooks
-- Hébergement : Vercel (CI/CD automatique)
-- Images : Sanity Assets / Cloudinary
-- Emails : SendGrid ou similaire
+**Ce document (CLAUDE.md)** explique COMMENT TRAVAILLER sur le projet au quotidien.
 
-**Structure :**
+---
 
-- Pages dynamiques via App Router
-- API Routes pour checkout et webhooks Stripe
-- Sanity Studio pour l'administration
-- Gestion de stock par œuvre (une œuvre = une vente)
-
-## Style Visuel
+## 🎨 Principes de Design
 
 - Interface claire et minimaliste
 - Design mobile-first et responsive
 - **Pas de mode sombre pour le MVP**
-- Focus sur la mise en valeur des œuvres
+- Focus sur la mise en valeur des œuvres (galerie épurée)
 
-## Contraintes et Politiques
+## ⚠️ Contraintes et Politiques Strictes
 
-### Sécurité
+### 🔒 Sécurité (JAMAIS de compromis)
 
-- **NE JAMAIS exposer les clés API au client** (utiliser les variables d'environnement et API Routes)
-- Validation côté serveur pour toutes les opérations critiques
-- Webhooks Stripe sécurisés avec signature validation
+- ❌ **JAMAIS exposer les clés API côté client** → Toujours utiliser API Routes et variables d'environnement serveur
+- ✅ Validation côté serveur pour toutes les opérations critiques (paiement, stock)
+- ✅ Webhooks Stripe sécurisés avec validation de signature
+- ✅ Sanitization des inputs utilisateurs
 
-### Développement
+### 🎯 Développement (Principe YAGNI)
 
-- TypeScript strict mode activé
-- Éviter la sur-ingénierie : implémenter uniquement ce qui est nécessaire pour la phase en cours
-- Pas de fonctionnalités "au cas où" - YAGNI (You Aren't Gonna Need It)
+- ✅ TypeScript strict mode activé
+- ✅ **Implémenter UNIQUEMENT ce qui est nécessaire** pour la phase actuelle (MVP, V1 ou V2)
+- ❌ **PAS de fonctionnalités "au cas où"** → YAGNI (You Aren't Gonna Need It)
+- ❌ **PAS de sur-engineering** → Éviter les abstractions prématurées
+- ✅ Code simple, lisible et maintenable > Code "clever"
 
-## Dépendances
+### 📦 Gestion des Dépendances
 
-- **Préférer les composants existants** plutôt que d'ajouter de nouvelles bibliothèques UI
-- Utiliser les primitives natives de Next.js et React autant que possible
-- Évaluer la nécessité réelle avant d'ajouter une nouvelle dépendance
-- Privilégier les solutions légères et bien maintenues
+**Règle d'or :** Toujours se demander "Ai-je vraiment besoin de ce package ?"
 
-## Testing & Qualité
+- ✅ **Préférer les primitives natives** de Next.js et React
+- ✅ **Préférer les composants existants** avant d'ajouter une bibliothèque UI
+- ✅ Évaluer la nécessité réelle avant chaque nouvelle dépendance
+- ✅ Privilégier les solutions légères et activement maintenues
+- ❌ Éviter les packages lourds ou avec beaucoup de dépendances transversales
 
-### Tests Playwright
+### Testing - Playwright Obligatoire
 
-**À la fin de chaque développement qui implique l'interface graphique :**
+**⚠️ RÈGLE STRICTE :** À la fin de chaque développement UI, tu DOIS tester avec Playwright.
 
-- Utiliser `playwright-skill` pour tester l'interface
-- Vérifier que l'interface est **responsive** (mobile, tablette, desktop)
-- Valider que les fonctionnalités sont **fonctionnelles**
-- Confirmer que l'implémentation **répond au besoin développé**
+**Checklist de test :**
+1. ✅ Utiliser `playwright-skill` pour automatiser les tests
+2. ✅ Tester responsive sur **3 viewports** :
+   - Mobile : 375px
+   - Tablet : 768px
+   - Desktop : 1920px
+3. ✅ Vérifier que les **fonctionnalités sont opérationnelles**
+4. ✅ Confirmer que l'implémentation **répond au besoin**
+5. ✅ Capturer des screenshots pour documentation
 
-### Tests Unitaires
+**Tests unitaires (optionnel pour MVP/V1) :**
+- Jest + React Testing Library pour composants critiques
+- Coverage sur logique métier (calcul prix, gestion stock)
 
-- Jest + React Testing Library pour les composants critiques
-- Coverage sur la logique métier et les utilitaires
+---
 
-## Documentation
+---
 
-### Documents de Référence
+## 🔧 Workflow de Développement
 
-- **Product Requirements Document** : [@PRD.md](./PRD.md)
-- **Architecture Technique** : [@ARCHITECTURE.md](./ARCHITECTURE.md)
-- **Contexte Projet OpenSpec** : [openspec/project.md](./openspec/project.md)
-- **Workflow OpenSpec** : [openspec/AGENTS.md](./openspec/AGENTS.md)
+### Context7 - Documentation en Temps Réel
 
-Toujours consulter ces documents pour comprendre le contexte et les décisions architecturales.
+**Utilisation obligatoire** pour toute intégration de bibliothèque :
 
-## Context7 - Documentation en Temps Réel
+1. **Avant de générer du code**, utilise `resolve-library-id` pour obtenir l'identifiant Context7
+2. Utilise `query-docs` avec l'identifiant pour récupérer la documentation officielle à jour
+3. Applique les meilleures pratiques de la doc officielle
 
-**Utilisation Automatique Requise :**
+**Cas d'usage :**
+- Génération de code avec bibliothèques spécifiques (Stripe, Sanity, etc.)
+- Configuration et installation de packages
+- Exemples de code à jour avec les dernières APIs
 
-Utilise **toujours** les outils MCP Context7 lorsque tu as besoin de :
+⚠️ **Obligation :** Utiliser ces outils automatiquement sans attendre qu'on te le demande.
 
-- Génération de code avec des bibliothèques spécifiques
-- Étapes de configuration ou d'installation
-- Documentation d'API ou de bibliothèque
-- Exemples de code à jour
+### OpenSpec - Gestion des Spécifications
 
-**Process :**
+**Convention de langue :**
+- Toutes les sections OpenSpec (Purpose, Scenarios, etc.) → **Français**
+- Titres des Requirements → **Anglais avec `SHALL`/`MUST`** (validation automatique)
 
-1. Utiliser `resolve-library-id` pour obtenir l'identifiant Context7
-2. Utiliser `query-docs` avec l'identifiant pour récupérer la documentation
-3. Appliquer les meilleures pratiques issues de la documentation officielle
+**Exemple :**
+```yaml
+requirements:
+  R1-MUST-display-gallery:
+    SHALL: Le système doit afficher la galerie d'œuvres disponibles
+```
 
-Tu dois automatiquement utiliser ces outils **sans que je doive le demander explicitement**.
-
-## Spécifications OpenSpec
-
-**Langue des Spécifications :**
-
-- Toutes les sections OpenSpec (Purpose, Scenarios, etc.) doivent être **rédigées en français**
-- **Exception** : Les titres des Requirements doivent rester en anglais avec les mots-clés `SHALL`/`MUST` pour permettre la validation automatique par OpenSpec
-- Exemple :
-  ```yaml
-  requirements:
-    R1-MUST-display-gallery:
-      SHALL: Le système doit afficher la galerie d'œuvres disponibles
-  ```
+**Workflow :**
+1. Créer une proposition avec `openspec proposal <id>`
+2. Rédiger tasks.md, proposal.md, design.md
+3. Implémenter avec `openspec apply <id>`
+4. Archiver avec déplacement manuel vers `archive/YYYY-MM-DD-<id>/`
 
 ## Commandes NPM
 

@@ -1,4 +1,10 @@
-# 🏗️ Architecture Technique — Site e-commerce pour une peintre
+# 🏗️ Architecture Technique
+
+> **Site e-commerce pour une artiste peintre**
+
+Ce document décrit **comment** le site est construit techniquement. Pour les fonctionnalités produit et la roadmap, voir [@PRD.md](./PRD.md).
+
+---
 
 ## 1️⃣ Stack principale
 
@@ -113,20 +119,7 @@
 
 ---
 
-## 7️⃣ Testing
-
-- **Tests unitaires** : Jest + React Testing Library
-  - Components, hooks et utils critiques (ex : calcul du prix, état stock)
-- **Tests d’intégration** : Cypress ou Playwright (optionnel MVP)
-  - Formulaire contact
-  - Checkout Stripe en mode test
-- **Linting & TypeScript** : ESLint + TypeScript strict
-- **Prettier** : standardisation du code
-- **CI/CD** : run tests sur chaque PR avant merge (Vercel ou GitHub Actions)
-
----
-
-## 8️⃣ Déploiement
+## 7️⃣ Déploiement
 
 - **Vercel** :
   - Build automatique sur push GitHub main / master
@@ -144,7 +137,7 @@
 
 ---
 
-## 9️⃣ Évolutivité
+## 8️⃣ Évolutivité
 
 - Ajout de pages ou œuvres = sans refactor front
 - Passage à multilingue → Next.js i18n + Sanity
