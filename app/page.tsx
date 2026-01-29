@@ -1,6 +1,7 @@
 import FeaturedCarousel from "@/components/FeaturedCarousel";
 import { getAvailableArtworkCount, getFeaturedArtworks } from "@/lib/sanity";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function HomePage() {
   const featuredArtworks = await getFeaturedArtworks();
@@ -34,18 +35,18 @@ export default async function HomePage() {
               passion. Chaque pièce raconte une histoire.
             </p>
             <div className="flex gap-4 justify-center">
-              <a
+              <Link
                 href="/galerie"
                 className="px-8 py-3 bg-pastel-rose-mauve text-white rounded-lg font-semibold hover:bg-pastel-lavender transition-colors duration-300 shadow-lg"
               >
                 Voir la Galerie
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/a-propos"
                 className="px-8 py-3 border-2 border-pastel-lavender bg-white/50 backdrop-blur-sm text-pastel-lavender rounded-lg font-semibold hover:bg-pastel-lavender hover:text-white transition-all duration-300"
               >
                 En savoir plus
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -71,7 +72,7 @@ export default async function HomePage() {
                 Explorez la collection et trouvez l'œuvre qui résonnera avec
                 vous.
               </p>
-              <a
+              <Link
                 href="/a-propos"
                 className="inline-flex items-center gap-2 text-pastel-lavender hover:text-pastel-rose-mauve transition-colors font-medium"
               >
@@ -90,7 +91,7 @@ export default async function HomePage() {
                     d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
                   />
                 </svg>
-              </a>
+              </Link>
             </div>
             <div className="bg-gradient-to-br from-pastel-blue-bg to-pastel-rose-bg rounded-2xl p-8 shadow-xl">
               <div className="space-y-4">
