@@ -35,36 +35,39 @@ export default async function HomePage() {
             src="/images/hero-palette.jpg"
             alt="Palette de peinture colorée"
             fill
-            className="object-cover"
+            className="object-cover brightness-110"
             priority
           />
-          {/* Overlay pour améliorer la lisibilité */}
-          <div className="absolute inset-0 bg-gradient-to-br from-pastel-rose-bg/85 to-pastel-blue-bg/85" />
+          {/* Overlay très subtil pour laisser voir l'image */}
+          <div className="absolute inset-0 bg-gradient-to-br from-pastel-rose-bg/30 to-pastel-blue-bg/30" />
         </div>
 
         {/* Contenu */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold text-pastel-rose-mauve mb-6 drop-shadow-lg">
-              Bienvenue dans la galerie de MNGH
-            </h1>
-            <p className="text-xl text-pastel-gray-text mb-8 max-w-2xl mx-auto drop-shadow">
-              Découvrez des œuvres d'art originales et uniques créées avec
-              passion. Chaque pièce raconte une histoire.
-            </p>
-            <div className="flex gap-4 justify-center">
-              <Link
-                href="/galerie"
-                className="px-8 py-3 bg-pastel-rose-mauve text-white rounded-lg font-semibold hover:bg-pastel-lavender transition-colors duration-300 shadow-lg"
-              >
-                Voir la Galerie
-              </Link>
-              <Link
-                href="/a-propos"
-                className="px-8 py-3 border-2 border-pastel-lavender bg-white/50 backdrop-blur-sm text-pastel-lavender rounded-lg font-semibold hover:bg-pastel-lavender hover:text-white transition-all duration-300"
-              >
-                En savoir plus
-              </Link>
+            {/* Conteneur avec fond semi-transparent pour meilleure lisibilité */}
+            <div className="bg-white/75 backdrop-blur-md rounded-3xl p-8 md:p-12 shadow-2xl max-w-4xl mx-auto">
+              <h1 className="text-5xl md:text-6xl font-bold text-pastel-rose-mauve mb-6">
+                Bienvenue dans la galerie de MNGH
+              </h1>
+              <p className="text-xl text-pastel-gray-text mb-8 max-w-2xl mx-auto">
+                Découvrez des œuvres d'art originales et uniques créées avec
+                passion. Chaque pièce raconte une histoire.
+              </p>
+              <div className="flex gap-4 justify-center flex-wrap">
+                <Link
+                  href="/galerie"
+                  className="px-8 py-3 bg-pastel-rose-mauve text-white rounded-lg font-semibold hover:bg-pastel-lavender transition-colors duration-300 shadow-lg"
+                >
+                  Voir la Galerie
+                </Link>
+                <Link
+                  href="/a-propos"
+                  className="px-8 py-3 border-2 border-pastel-lavender bg-white/80 text-pastel-lavender rounded-lg font-semibold hover:bg-pastel-lavender hover:text-white transition-all duration-300"
+                >
+                  En savoir plus
+                </Link>
+              </div>
             </div>
           </div>
         </div>

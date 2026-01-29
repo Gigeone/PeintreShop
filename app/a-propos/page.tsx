@@ -34,7 +34,7 @@ export default function AProposPage() {
                 src="/images/artist-photo.jpg"
                 alt="Portrait de l'artiste MNGH"
                 fill
-                className="object-cover"
+                className="object-cover scale-150 translate-y-8"
                 priority
               />
             </div>

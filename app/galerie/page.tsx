@@ -52,12 +52,12 @@ export default async function GaleriePage() {
               className="bg-white/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
             >
               {/* Image optimisée */}
-              <div className="relative aspect-square overflow-hidden">
+              <div className="relative aspect-square overflow-hidden bg-white p-4">
                 <Image
                   src={artwork.imageUrl}
                   alt={artwork.imageAlt || artwork.title}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>

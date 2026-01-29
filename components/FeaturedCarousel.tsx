@@ -75,61 +75,42 @@ export default function FeaturedCarousel({
 
         {/* Carrousel */}
         <div className="relative">
-          {/* Track - Affiche seulement l'œuvre active */}
+          {/* Track - Affiche 2 œuvres côte à côte (1 sur mobile) */}
           <div className="overflow-hidden">
             <div className="relative">
-              {featuredArtworks.map((artwork, index) => (
-                <div
-                  key={artwork._id}
-                  className={`transition-opacity duration-500 ${
-                    index === currentIndex
-                      ? "opacity-100"
-                      : "opacity-0 absolute inset-0"
-                  }`}
-                >
-                  <div className="bg-white/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 mx-auto max-w-md">
-                    {/* Image */}
+              {/* Grille responsive : 1 colonne sur mobile, 2 sur desktop */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                {/* Première œuvre */}
+                {featuredArtworks[currentIndex] && (
+                  <div className="bg-white/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
                     <div className="relative aspect-square overflow-hidden">
                       <Image
-                        src={artwork.imageUrl}
-                        alt={artwork.imageAlt || artwork.title}
+                        src={featuredArtworks[currentIndex].imageUrl}
+                        alt={featuredArtworks[currentIndex].imageAlt || featuredArtworks[currentIndex].title}
                         fill
                         className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 448px"
-                        priority={index === 0}
+                        sizes="(max-width: 768px) 100vw, 40vw"
+                        priority={currentIndex === 0}
                       />
                     </div>
-
-                    {/* Informations */}
-                    {/* <div className="p-6">
-                      <h3 className="text-xl font-semibold text-pastel-gray-text mb-2">
-                        {artwork.title}
-                      </h3>
-
-                      <p className="text-sm text-pastel-lavender mb-3">
-                        {artwork.technique}
-                      </p>
-
-                      <p className="text-pastel-gray-text/70 mb-4 line-clamp-2">
-                        {artwork.description}
-                      </p>
-
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="text-2xl font-bold text-pastel-lavender">
-                          {artwork.price.toLocaleString("fr-FR")} €
-                        </span>
-                        <span className="text-sm text-pastel-gray-text/60">
-                          {artwork.dimensions.height} × {artwork.dimensions.width} cm
-                        </span>
-                      </div>
-
-                      <Button className="w-full" asChild>
-                        <Link href="/galerie">Voir les détails</Link>
-                      </Button>
-                    </div> */}
                   </div>
-                </div>
-              ))}
+                )}
+
+                {/* Deuxième œuvre - visible uniquement sur md et plus */}
+                {featuredArtworks.length > 1 && featuredArtworks[(currentIndex + 1) % featuredArtworks.length] && (
+                  <div className="hidden md:block bg-white/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                    <div className="relative aspect-square overflow-hidden">
+                      <Image
+                        src={featuredArtworks[(currentIndex + 1) % featuredArtworks.length].imageUrl}
+                        alt={featuredArtworks[(currentIndex + 1) % featuredArtworks.length].imageAlt || featuredArtworks[(currentIndex + 1) % featuredArtworks.length].title}
+                        fill
+                        className="object-cover"
+                        sizes="40vw"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
