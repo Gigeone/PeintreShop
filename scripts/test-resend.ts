@@ -1,0 +1,123 @@
+/**
+ * Script de test pour vérifier la configuration Resend
+ *
+ * Usage: npm run dev, puis visiter http://localhost:3000/api/test-email
+ * Ou exécuter ce script directement avec ts-node
+ */
+
+import { Resend } from 'resend';
+
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const EMAIL_FROM = process.env.EMAIL_FROM || 'onboarding@resend.dev';
+const ARTIST_EMAIL = process.env.ARTIST_EMAIL;
+
+async function testResendConfiguration() {
+  console.log('\n🧪 Test de configuration Resend\n');
+  console.log('━'.repeat(50));
+
+  // 1. Vérifier les variables d'environnement
+  console.log('\n1️⃣  Variables d\'environnement:');
+  console.log(`   RESEND_API_KEY: ${RESEND_API_KEY ? '✓ Configurée' : '✗ Manquante'}`);
+  console.log(`   EMAIL_FROM: ${EMAIL_FROM}`);
+  console.log(`   ARTIST_EMAIL: ${ARTIST_EMAIL || '✗ Non configurée'}`);
+
+  if (!RESEND_API_KEY) {
+    console.error('\n❌ RESEND_API_KEY est manquante dans .env.local');
+    console.log('\nÉtapes pour configurer:');
+    console.log('1. Allez sur https://resend.com/api-keys');
+    console.log('2. Créez une nouvelle clé API');
+    console.log('3. Ajoutez-la dans .env.local: RESEND_API_KEY=re_...');
+    process.exit(1);
+  }
+
+  if (!ARTIST_EMAIL) {
+    console.warn('\n⚠️  ARTIST_EMAIL non configurée - Les notifications artiste ne seront pas envoyées');
+  }
+
+  // 2. Initialiser Resend
+  console.log('\n2️⃣  Initialisation Resend...');
+  const resend = new Resend(RESEND_API_KEY);
+  console.log('   ✓ Client Resend initialisé');
+
+  // 3. Envoyer un email de test
+  console.log('\n3️⃣  Envoi d\'un email de test...');
+
+  if (!ARTIST_EMAIL) {
+    console.warn('   ⚠️  Impossible d\'envoyer l\'email de test sans ARTIST_EMAIL');
+    console.log('\nPour tester l\'envoi:');
+    console.log('1. Ajoutez ARTIST_EMAIL=votre-email@example.com dans .env.local');
+    console.log('2. Relancez ce script');
+    process.exit(0);
+  }
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: EMAIL_FROM,
+      to: ARTIST_EMAIL,
+      subject: '🎨 Test de configuration Resend - PeintureShop',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <h1 style="color: #2563eb; font-size: 24px; margin-bottom: 20px;">
+            ✅ Configuration Resend réussie !
+          </h1>
+
+          <p style="font-size: 16px; line-height: 1.6; color: #374151;">
+            Félicitations ! Votre configuration Resend fonctionne correctement.
+          </p>
+
+          <div style="background-color: #f3f4f6; border-left: 4px solid #2563eb; padding: 16px; margin: 24px 0;">
+            <p style="margin: 0; font-size: 14px; color: #1f2937;">
+              <strong>Configuration détectée :</strong><br>
+              📧 Email expéditeur : <code>${EMAIL_FROM}</code><br>
+              🎨 Email artiste : <code>${ARTIST_EMAIL}</code>
+            </p>
+          </div>
+
+          <p style="font-size: 14px; color: #6b7280; margin-top: 32px;">
+            Vous pouvez maintenant tester le flow complet d'achat avec Stripe CLI.
+          </p>
+
+          <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 32px 0;">
+
+          <p style="font-size: 12px; color: #9ca3af; text-align: center;">
+            Email de test envoyé par PeintureShop
+          </p>
+        </div>
+      `,
+    });
+
+    if (error) {
+      console.error('\n❌ Erreur lors de l\'envoi:', error);
+
+      if (error.message?.includes('onboarding@resend.dev')) {
+        console.log('\n💡 Note : Avec onboarding@resend.dev, vous pouvez uniquement envoyer');
+        console.log('   des emails vers l\'adresse email de votre compte Resend.');
+        console.log('\n   Assurez-vous que ARTIST_EMAIL correspond à l\'email de votre compte Resend.');
+      }
+
+      process.exit(1);
+    }
+
+    console.log(`   ✓ Email envoyé avec succès !`);
+    console.log(`   📧 Email ID: ${data?.id}`);
+    console.log(`   📬 Destination: ${ARTIST_EMAIL}`);
+
+    console.log('\n━'.repeat(50));
+    console.log('\n✅ Configuration Resend validée avec succès !');
+    console.log('\n📝 Prochaines étapes:');
+    console.log('   1. Vérifiez votre boîte mail (peut prendre 1-2 minutes)');
+    console.log('   2. Testez le flow complet avec: npm run test:stripe-webhook');
+    console.log('\n');
+
+  } catch (error) {
+    console.error('\n❌ Exception lors du test:', error);
+    process.exit(1);
+  }
+}
+
+// Exécuter le test si ce script est lancé directement
+if (require.main === module) {
+  testResendConfiguration();
+}
+
+export { testResendConfiguration };
