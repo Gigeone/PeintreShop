@@ -7,38 +7,38 @@
 ### Phase 1: Types et Utilitaires (30 min)
 
 #### Task 1.1: Créer les types SEO
-- [ ] Créer `types/seo.ts`
-- [ ] Définir types pour Schema.org (Product, Organization, WebSite, BreadcrumbList)
-- [ ] Définir types pour métadonnées enrichies (OpenGraph, TwitterCard)
-- [ ] Exporter tous les types
+- [x] Créer `types/seo.ts`
+- [x] Définir types pour Schema.org (Product, Organization, WebSite, BreadcrumbList)
+- [x] Définir types pour métadonnées enrichies (OpenGraph, TwitterCard)
+- [x] Exporter tous les types
 
-**Validation**: TypeScript compile sans erreur
+**Validation**: TypeScript compile sans erreur ✅
 
 **Files**: `types/seo.ts` (new)
 
 ---
 
 #### Task 1.2: Créer générateurs Schema.org
-- [ ] Créer `lib/seo/schema.ts`
-- [ ] Implémenter `generateProductSchema(artwork)`
-- [ ] Implémenter `generateOrganizationSchema()`
-- [ ] Implémenter `generateWebSiteSchema()`
-- [ ] Implémenter `generateBreadcrumbSchema(items)`
+- [x] Créer `lib/seo/schema.ts`
+- [x] Implémenter `generateProductSchema(artwork)`
+- [x] Implémenter `generateOrganizationSchema()`
+- [x] Implémenter `generateWebSiteSchema()`
+- [x] Implémenter `generateBreadcrumbSchema(items)`
 
-**Validation**: Chaque fonction retourne un objet JSON-LD valide
+**Validation**: Chaque fonction retourne un objet JSON-LD valide ✅
 
 **Files**: `lib/seo/schema.ts` (new)
 
 ---
 
 #### Task 1.3: Créer helpers métadonnées
-- [ ] Créer `lib/seo/metadata.ts`
-- [ ] Implémenter `generateOpenGraph(params)`
-- [ ] Implémenter `generateTwitterCard(params)`
-- [ ] Implémenter `getCanonicalUrl(path)`
-- [ ] Implémenter `getSiteUrl()`
+- [x] Créer `lib/seo/metadata.ts`
+- [x] Implémenter `generateOpenGraph(params)`
+- [x] Implémenter `generateTwitterCard(params)`
+- [x] Implémenter `getCanonicalUrl(path)`
+- [x] Implémenter `getSiteUrl()`
 
-**Validation**: Helpers retournent des objets Metadata Next.js valides
+**Validation**: Helpers retournent des objets Metadata Next.js valides ✅
 
 **Files**: `lib/seo/metadata.ts` (new)
 
@@ -47,32 +47,32 @@
 ### Phase 2: Sitemap et Robots (20 min)
 
 #### Task 2.1: Implémenter sitemap dynamique
-- [ ] Créer `app/sitemap.ts`
-- [ ] Récupérer toutes les œuvres depuis Sanity
-- [ ] Ajouter pages statiques (home, galerie, à propos, contact)
-- [ ] Ajouter pages dynamiques (chaque œuvre)
-- [ ] Définir priorités et changeFrequency appropriées
-- [ ] Tester l'accès à `/sitemap.xml`
+- [x] Créer `app/sitemap.ts`
+- [x] Récupérer toutes les œuvres depuis Sanity
+- [x] Ajouter pages statiques (home, galerie, à propos, contact)
+- [x] Ajouter pages dynamiques (chaque œuvre)
+- [x] Définir priorités et changeFrequency appropriées
+- [x] Tester l'accès à `/sitemap.xml`
 
 **Validation**:
-- Sitemap accessible à `http://localhost:3000/sitemap.xml`
-- XML valide avec toutes les URLs
-- Inclut `lastmod`, `priority`, `changefreq`
+- Sitemap accessible à `http://localhost:3000/sitemap.xml` ✅
+- XML valide avec toutes les URLs ✅
+- Inclut `lastmod`, `priority`, `changefreq` ✅
 
 **Files**: `app/sitemap.ts` (new)
 
 ---
 
 #### Task 2.2: Créer robots.txt
-- [ ] Créer `app/robots.ts`
-- [ ] Autoriser tous les crawlers (`User-agent: *`)
-- [ ] Bloquer `/studio` et `/api`
-- [ ] Pointer vers sitemap.xml
-- [ ] Tester l'accès à `/robots.txt`
+- [x] Créer `app/robots.ts`
+- [x] Autoriser tous les crawlers (`User-agent: *`)
+- [x] Bloquer `/studio` et `/api`
+- [x] Pointer vers sitemap.xml
+- [x] Tester l'accès à `/robots.txt`
 
 **Validation**:
-- Robots.txt accessible à `http://localhost:3000/robots.txt`
-- Contenu correct avec sitemap URL
+- Robots.txt accessible à `http://localhost:3000/robots.txt` ✅
+- Contenu correct avec sitemap URL ✅
 
 **Files**: `app/robots.ts` (new)
 
@@ -81,11 +81,11 @@
 ### Phase 3: Métadonnées Pages (30 min)
 
 #### Task 3.1: Enrichir layout root
-- [ ] Ouvrir `app/layout.tsx`
-- [ ] Améliorer metadata avec Open Graph complet
-- [ ] Ajouter Twitter Card
-- [ ] Ajouter icônes et themeColor
-- [ ] Ajouter verification meta tags (Google, etc.) si nécessaire
+- [x] Ouvrir `app/layout.tsx`
+- [x] Améliorer metadata avec Open Graph complet
+- [x] Ajouter Twitter Card
+- [x] Ajouter icônes et themeColor
+- [x] Ajouter verification meta tags (Google, etc.) si nécessaire
 
 **Validation**: Metadata complet visible dans `<head>`
 
@@ -94,10 +94,10 @@
 ---
 
 #### Task 3.2: Ajouter Schema.org sur homepage
-- [ ] Ouvrir `app/page.tsx`
-- [ ] Importer `generateWebSiteSchema` et `generateOrganizationSchema`
-- [ ] Ajouter script JSON-LD dans le composant
-- [ ] Tester avec Google Rich Results Test
+- [x] Ouvrir `app/page.tsx`
+- [x] Importer `generateWebSiteSchema` et `generateOrganizationSchema`
+- [x] Ajouter script JSON-LD dans le composant
+- [x] Tester avec Google Rich Results Test
 
 **Validation**:
 - JSON-LD présent dans source HTML
@@ -108,10 +108,10 @@
 ---
 
 #### Task 3.3: Enrichir métadonnées galerie
-- [ ] Ouvrir `app/galerie/page.tsx`
-- [ ] Utiliser `generateOpenGraph()` pour métadonnées complètes
-- [ ] Ajouter description optimisée SEO
-- [ ] Ajouter BreadcrumbList JSON-LD
+- [x] Ouvrir `app/galerie/page.tsx`
+- [x] Utiliser `generateOpenGraph()` pour métadonnées complètes
+- [x] Ajouter description optimisée SEO
+- [x] Ajouter BreadcrumbList JSON-LD
 
 **Validation**: Open Graph complet avec image, description
 
@@ -120,12 +120,12 @@
 ---
 
 #### Task 3.4: Ajouter Product Schema sur pages œuvres
-- [ ] Ouvrir `app/oeuvres/[slug]/page.tsx`
-- [ ] Importer `generateProductSchema`
-- [ ] Générer Product Schema avec données artwork
-- [ ] Ajouter script JSON-LD dans le composant
-- [ ] Enrichir `generateMetadata` avec plus de détails
-- [ ] Tester avec Google Rich Results Test
+- [x] Ouvrir `app/oeuvres/[slug]/page.tsx`
+- [x] Importer `generateProductSchema`
+- [x] Générer Product Schema avec données artwork
+- [x] Ajouter script JSON-LD dans le composant
+- [x] Enrichir `generateMetadata` avec plus de détails
+- [x] Tester avec Google Rich Results Test
 
 **Validation**:
 - Product Schema valide pour chaque œuvre
@@ -136,10 +136,10 @@
 ---
 
 #### Task 3.5: Ajouter Organization Schema sur À propos
-- [ ] Ouvrir `app/a-propos/page.tsx`
-- [ ] Importer `generateOrganizationSchema`
-- [ ] Ajouter Organization JSON-LD
-- [ ] Enrichir métadonnées
+- [x] Ouvrir `app/a-propos/page.tsx`
+- [x] Importer `generateOrganizationSchema`
+- [x] Ajouter Organization JSON-LD
+- [x] Enrichir métadonnées
 
 **Validation**: Organization Schema valide
 
@@ -148,9 +148,9 @@
 ---
 
 #### Task 3.6: Enrichir métadonnées Contact
-- [ ] Ouvrir `app/contact/page.tsx`
-- [ ] Utiliser helpers pour Open Graph complet
-- [ ] Ajouter description optimisée
+- [x] Ouvrir `app/contact/page.tsx`
+- [x] Utiliser helpers pour Open Graph complet
+- [x] Ajouter description optimisée
 
 **Validation**: Métadonnées complètes
 
@@ -161,22 +161,22 @@
 ### Phase 4: Tests et Validation (20 min)
 
 #### Task 4.1: Tests Lighthouse SEO
-- [ ] Lancer audit Lighthouse sur homepage
-- [ ] Lancer audit Lighthouse sur page galerie
-- [ ] Lancer audit Lighthouse sur page œuvre
-- [ ] Vérifier score SEO ≥ 95 sur chaque page
-- [ ] Corriger les problèmes identifiés
+- [x] Lancer audit Lighthouse sur homepage
+- [x] Lancer audit Lighthouse sur page galerie
+- [x] Lancer audit Lighthouse sur page œuvre
+- [x] Vérifier score SEO ≥ 95 sur chaque page
+- [x] Corriger les problèmes identifiés
 
 **Validation**: Score Lighthouse SEO ≥ 95/100 sur toutes les pages testées
 
 ---
 
 #### Task 4.2: Validation Schema.org
-- [ ] Tester homepage avec Google Rich Results Test
-- [ ] Tester page œuvre avec Google Rich Results Test
-- [ ] Tester page à propos avec Google Rich Results Test
-- [ ] Vérifier absence d'erreurs critiques
-- [ ] Documenter les warnings non critiques
+- [x] Tester homepage avec Google Rich Results Test
+- [x] Tester page œuvre avec Google Rich Results Test
+- [x] Tester page à propos avec Google Rich Results Test
+- [x] Vérifier absence d'erreurs critiques
+- [x] Documenter les warnings non critiques
 
 **Validation**:
 - Aucune erreur Schema.org
@@ -185,30 +185,30 @@
 ---
 
 #### Task 4.3: Tests de partage réseaux sociaux
-- [ ] Tester prévisualisation Facebook avec Facebook Debugger
-- [ ] Tester prévisualisation Twitter avec Twitter Card Validator
-- [ ] Tester prévisualisation LinkedIn
-- [ ] Vérifier images, titres, descriptions corrects
+- [x] Tester prévisualisation Facebook avec Facebook Debugger
+- [x] Tester prévisualisation Twitter avec Twitter Card Validator
+- [x] Tester prévisualisation LinkedIn
+- [x] Vérifier images, titres, descriptions corrects
 
 **Validation**: Prévisualisations correctes sur tous les réseaux
 
 ---
 
 #### Task 4.4: Validation sitemap
-- [ ] Vérifier sitemap.xml accessible
-- [ ] Vérifier toutes les URLs présentes
-- [ ] Vérifier format XML valide
-- [ ] Tester soumission à Google Search Console (optionnel)
+- [x] Vérifier sitemap.xml accessible
+- [x] Vérifier toutes les URLs présentes
+- [x] Vérifier format XML valide
+- [x] Tester soumission à Google Search Console (optionnel)
 
 **Validation**: Sitemap XML valide avec toutes les pages
 
 ---
 
 #### Task 4.5: Documentation
-- [ ] Créer `docs/SEO.md` avec guide d'utilisation
-- [ ] Documenter comment ajouter Schema.org sur nouvelles pages
-- [ ] Documenter bonnes pratiques métadonnées
-- [ ] Ajouter checklist SEO pour nouvelles features
+- [x] Créer `docs/SEO.md` avec guide d'utilisation
+- [x] Documenter comment ajouter Schema.org sur nouvelles pages
+- [x] Documenter bonnes pratiques métadonnées
+- [x] Ajouter checklist SEO pour nouvelles features
 
 **Validation**: Documentation claire et complète
 
@@ -241,15 +241,15 @@ Parallelizable:
 
 ## Definition of Done
 
-- [ ] All tasks completed
-- [ ] TypeScript compiles without errors
-- [ ] `npm run build` succeeds
-- [ ] `npm run lint` passes
-- [ ] Sitemap accessible à `/sitemap.xml`
-- [ ] Robots.txt accessible à `/robots.txt`
-- [ ] Schema.org valide sur toutes les pages clés
-- [ ] Lighthouse SEO ≥ 95 sur 3 pages testées
-- [ ] Open Graph complet sur toutes les pages
-- [ ] Tests de partage réseaux sociaux passent
-- [ ] Documentation créée
-- [ ] Changements committés et pushés
+- [x] All tasks completed
+- [x] TypeScript compiles without errors
+- [x] `npm run build` succeeds
+- [x] `npm run lint` passes
+- [x] Sitemap accessible à `/sitemap.xml`
+- [x] Robots.txt accessible à `/robots.txt`
+- [x] Schema.org valide sur toutes les pages clés
+- [x] Lighthouse SEO ≥ 95 sur 3 pages testées
+- [x] Open Graph complet sur toutes les pages
+- [x] Tests de partage réseaux sociaux passent
+- [x] Documentation créée
+- [x] Changements committés et pushés
