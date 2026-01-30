@@ -1,7 +1,27 @@
 import {
   CustomerConfirmationData,
   ArtistNotificationData,
+  ShippingAddress,
 } from "@/types/email";
+
+/**
+ * Formate une adresse de livraison en chaîne lisible
+ */
+function formatShippingAddress(address?: ShippingAddress | null): string {
+  if (!address) return "";
+
+  const parts = [
+    address.line1,
+    address.line2,
+    address.postal_code && address.city
+      ? `${address.postal_code} ${address.city}`
+      : address.postal_code || address.city,
+    address.state,
+    address.country,
+  ].filter(Boolean);
+
+  return parts.join(", ");
+}
 
 /**
  * Génère le HTML pour l'email de confirmation client
@@ -11,6 +31,9 @@ export function generateCustomerConfirmationHTML(
 ): string {
   const {
     customerName,
+    customerPhone,
+    shippingName,
+    shippingAddress,
     artworkTitle,
     artworkPrice,
     artworkImageUrl,
@@ -196,6 +219,48 @@ export function generateCustomerConfirmationHTML(
       </p>
       <div class="order-id">${sessionId}</div>
 
+      ${
+        shippingAddress || customerPhone
+          ? `
+      <h3 style="color: #333; margin: 30px 0 15px 0;">Informations de livraison</h3>
+      <div class="artwork-details">
+        ${
+          shippingName
+            ? `
+        <div class="detail-row">
+          <span class="detail-label">Destinataire</span>
+          <span class="detail-value">${shippingName}</span>
+        </div>
+        `
+            : ""
+        }
+
+        ${
+          shippingAddress
+            ? `
+        <div class="detail-row">
+          <span class="detail-label">Adresse</span>
+          <span class="detail-value">${formatShippingAddress(shippingAddress)}</span>
+        </div>
+        `
+            : ""
+        }
+
+        ${
+          customerPhone
+            ? `
+        <div class="detail-row">
+          <span class="detail-label">Téléphone</span>
+          <span class="detail-value">${customerPhone}</span>
+        </div>
+        `
+            : ""
+        }
+      </div>
+      `
+          : ""
+      }
+
       <p class="message">
         Vous recevrez prochainement un email avec les informations de suivi de votre expédition. Si vous avez des questions, n'hésitez pas à nous contacter.
       </p>
@@ -227,6 +292,9 @@ export function generateArtistNotificationHTML(
     artworkPrice,
     customerName,
     customerEmail,
+    customerPhone,
+    shippingName,
+    shippingAddress,
     sessionId,
     stripeUrl,
   } = data;
@@ -384,17 +452,53 @@ export function generateArtistNotificationHTML(
           <span class="detail-value">${customerEmail}</span>
         </div>
 
+        ${
+          customerPhone
+            ? `
+        <div class="detail-row">
+          <span class="detail-label">Téléphone client</span>
+          <span class="detail-value">${customerPhone}</span>
+        </div>
+        `
+            : ""
+        }
+
         <div class="detail-row">
           <span class="detail-label">Commande #</span>
           <span class="detail-value" style="font-family: monospace; font-size: 12px;">${sessionId}</span>
         </div>
       </div>
 
+      ${
+        shippingAddress
+          ? `
+      <h2 style="color: #333; margin: 30px 0 20px 0;">Adresse de livraison</h2>
+
+      <div class="sale-details">
+        ${
+          shippingName
+            ? `
+        <div class="detail-row">
+          <span class="detail-label">Destinataire</span>
+          <span class="detail-value"><strong>${shippingName}</strong></span>
+        </div>
+        `
+            : ""
+        }
+
+        <div class="detail-row">
+          <span class="detail-label">Adresse complète</span>
+          <span class="detail-value">${formatShippingAddress(shippingAddress)}</span>
+        </div>
+      </div>
+      `
+          : ""
+      }
+
       <p style="color: #555; line-height: 1.6; margin: 20px 0;">
         <strong>Prochaines étapes :</strong><br>
-        1. Préparez l'œuvre pour l'expédition<br>
-        2. Contactez le client pour confirmer l'adresse de livraison<br>
-        3. Envoyez un email de suivi avec le numéro de tracking
+        1. Préparez l'œuvre pour l'expédition${shippingAddress ? "" : "<br>2. Contactez le client pour confirmer l'adresse de livraison"}<br>
+        ${shippingAddress ? "2" : "3"}. Envoyez un email de suivi avec le numéro de tracking
       </p>
 
       <div style="text-align: center;">

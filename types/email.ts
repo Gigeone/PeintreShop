@@ -8,11 +8,26 @@
 export type EmailType = "customer_confirmation" | "artist_notification";
 
 /**
+ * Adresse de livraison Stripe
+ */
+export interface ShippingAddress {
+  city?: string | null;
+  country?: string | null;
+  line1?: string | null;
+  line2?: string | null;
+  postal_code?: string | null;
+  state?: string | null;
+}
+
+/**
  * Données nécessaires pour l'email de confirmation client
  */
 export interface CustomerConfirmationData {
   customerEmail: string;
   customerName?: string;
+  customerPhone?: string | null;
+  shippingName?: string | null;
+  shippingAddress?: ShippingAddress | null;
   artworkTitle: string;
   artworkPrice: number;
   artworkImageUrl?: string;
@@ -30,6 +45,9 @@ export interface ArtistNotificationData {
   artworkPrice: number;
   customerName: string;
   customerEmail: string;
+  customerPhone?: string | null;
+  shippingName?: string | null;
+  shippingAddress?: ShippingAddress | null;
   sessionId: string;
   stripeUrl?: string;
 }

@@ -97,6 +97,26 @@ export async function POST(request: NextRequest) {
           quantity: 1,
         },
       ],
+      // Collecte de l'adresse de livraison
+      shipping_address_collection: {
+        allowed_countries: [
+          "FR", // France
+          "BE", // Belgique
+          "CH", // Suisse
+          "LU", // Luxembourg
+          "MC", // Monaco
+          "DE", // Allemagne
+          "ES", // Espagne
+          "IT", // Italie
+          "GB", // Royaume-Uni
+          "NL", // Pays-Bas
+          "PT", // Portugal
+        ],
+      },
+      // Collecte du numéro de téléphone
+      phone_number_collection: {
+        enabled: true,
+      },
       success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/oeuvres/${artwork.slug.current}`,
       metadata: {

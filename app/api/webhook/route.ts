@@ -158,6 +158,11 @@ export async function POST(request: NextRequest) {
       const customerEmail = session.customer_details?.email;
       const customerName =
         session.customer_details?.name || "Client";
+      const customerPhone = session.customer_details?.phone;
+
+      // Extraire l'adresse de livraison
+      const shippingAddress = session.shipping_details?.address;
+      const shippingName = session.shipping_details?.name;
 
       // Envoyer les emails uniquement si on a l'email client
       if (customerEmail) {
@@ -166,6 +171,9 @@ export async function POST(request: NextRequest) {
           {
             customerEmail,
             customerName,
+            customerPhone,
+            shippingName,
+            shippingAddress,
             artworkTitle: artwork.title,
             artworkPrice: artwork.price,
             artworkImageUrl: artwork.imageUrl,
@@ -180,6 +188,9 @@ export async function POST(request: NextRequest) {
             artworkPrice: artwork.price,
             customerName,
             customerEmail,
+            customerPhone,
+            shippingName,
+            shippingAddress,
             sessionId: session.id,
           }
         );
