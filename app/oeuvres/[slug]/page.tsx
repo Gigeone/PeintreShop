@@ -122,7 +122,7 @@ export default async function ArtworkDetailPage({
 
         {/* Layout responsive : 2 colonnes desktop, vertical mobile */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
-          {/* Image de l'œuvre (60% desktop) */}
+          {/* Image de l'œuvre avec loupe zoom (60% desktop) */}
           <div className="lg:col-span-3">
             <ImageZoom
               src={artwork.imageUrl}
