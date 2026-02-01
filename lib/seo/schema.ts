@@ -5,7 +5,7 @@
  * pour améliorer l'affichage des rich snippets dans les moteurs de recherche.
  */
 
-import type { Artwork } from "@/types/artwork";
+import type { SanityArtwork } from "@/types/artwork";
 import type {
   ProductSchema,
   OrganizationSchema,
@@ -22,7 +22,7 @@ import type {
  * @returns Product Schema.org JSON-LD
  */
 export function generateProductSchema(
-  artwork: Artwork,
+  artwork: SanityArtwork,
   siteUrl: string
 ): ProductSchema {
   return {

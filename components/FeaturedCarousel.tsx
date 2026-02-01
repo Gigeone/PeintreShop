@@ -1,14 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import type { SanityArtwork } from "@/types/artwork";
 
-const AUTOPLAY_INTERVAL = 5000; // 5 secondes
+const AUTOPLAY_INTERVAL = 5000;
 
 interface FeaturedCarouselProps {
-  artworks: any[];
+  artworks: SanityArtwork[];
 }
 
 export default function FeaturedCarousel({
@@ -16,45 +17,37 @@ export default function FeaturedCarousel({
 }: FeaturedCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [fadeKey, setFadeKey] = useState(0);
+
+  const goToNext = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % featuredArtworks.length);
+    setFadeKey((prev) => prev + 1);
+  }, [featuredArtworks.length]);
+
+  const goToPrev = useCallback(() => {
+    setCurrentIndex(
+      (prev) => (prev - 1 + featuredArtworks.length) % featuredArtworks.length,
+    );
+    setFadeKey((prev) => prev + 1);
+  }, [featuredArtworks.length]);
+
+  const goToSlide = (index: number) => {
+    setCurrentIndex(index);
+    setFadeKey((prev) => prev + 1);
+  };
 
   // Auto-play
   useEffect(() => {
     if (!isPlaying) return;
 
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % featuredArtworks.length);
-    }, AUTOPLAY_INTERVAL);
-
+    const interval = setInterval(goToNext, AUTOPLAY_INTERVAL);
     return () => clearInterval(interval);
-  }, [isPlaying, featuredArtworks.length]);
-
-  // Navigation
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % featuredArtworks.length);
-  };
-
-  const goToPrev = () => {
-    setCurrentIndex(
-      (prev) => (prev - 1 + featuredArtworks.length) % featuredArtworks.length,
-    );
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
-  };
-
-  // Navigation clavier
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") goToPrev();
-      if (e.key === "ArrowRight") goToNext();
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [isPlaying, goToNext]);
 
   if (featuredArtworks.length === 0) return null;
+
+  const currentArtwork = featuredArtworks[currentIndex];
+  const nextArtwork = featuredArtworks[(currentIndex + 1) % featuredArtworks.length];
 
   return (
     <section
@@ -65,8 +58,8 @@ export default function FeaturedCarousel({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Titre */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-pastel-lavender mb-4">
-            Œuvres en Vedette
+          <h2 className="font-serif text-4xl font-bold text-pastel-lavender mb-4">
+            Oeuvres en Vedette
           </h2>
           <p className="text-lg text-pastel-gray-text">
             Découvrez une sélection de nos créations les plus remarquables
@@ -75,42 +68,73 @@ export default function FeaturedCarousel({
 
         {/* Carrousel */}
         <div className="relative">
-          {/* Track - Affiche 2 œuvres côte à côte (1 sur mobile) */}
           <div className="overflow-hidden">
-            <div className="relative">
-              {/* Grille responsive : 1 colonne sur mobile, 2 sur desktop */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-                {/* Première œuvre */}
-                {featuredArtworks[currentIndex] && (
-                  <div className="bg-white/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
-                    <div className="relative aspect-square overflow-hidden">
-                      <Image
-                        src={featuredArtworks[currentIndex].imageUrl}
-                        alt={featuredArtworks[currentIndex].imageAlt || featuredArtworks[currentIndex].title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 40vw"
-                        priority={currentIndex === 0}
-                      />
+            <div
+              key={fadeKey}
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto animate-carouselFade"
+            >
+              {/* Première oeuvre */}
+              {currentArtwork && (
+                <Link
+                  href={`/oeuvres/${currentArtwork.slug}`}
+                  className="group bg-white/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
+                >
+                  <div className="relative aspect-square overflow-hidden">
+                    <Image
+                      src={currentArtwork.imageUrl}
+                      alt={currentArtwork.imageAlt || currentArtwork.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 40vw"
+                      priority={currentIndex === 0}
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-serif text-lg font-semibold text-pastel-gray-text truncate">
+                      {currentArtwork.title}
+                    </h3>
+                    <div className="flex items-center justify-between mt-1">
+                      <span className="text-xl font-bold text-pastel-lavender">
+                        {currentArtwork.price.toLocaleString("fr-FR")} €
+                      </span>
+                      <span className="text-sm text-pastel-gray-text/60">
+                        {currentArtwork.technique}
+                      </span>
                     </div>
                   </div>
-                )}
+                </Link>
+              )}
 
-                {/* Deuxième œuvre - visible uniquement sur md et plus */}
-                {featuredArtworks.length > 1 && featuredArtworks[(currentIndex + 1) % featuredArtworks.length] && (
-                  <div className="hidden md:block bg-white/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
-                    <div className="relative aspect-square overflow-hidden">
-                      <Image
-                        src={featuredArtworks[(currentIndex + 1) % featuredArtworks.length].imageUrl}
-                        alt={featuredArtworks[(currentIndex + 1) % featuredArtworks.length].imageAlt || featuredArtworks[(currentIndex + 1) % featuredArtworks.length].title}
-                        fill
-                        className="object-cover"
-                        sizes="40vw"
-                      />
+              {/* Deuxième oeuvre - visible uniquement sur md et plus */}
+              {featuredArtworks.length > 1 && nextArtwork && (
+                <Link
+                  href={`/oeuvres/${nextArtwork.slug}`}
+                  className="hidden md:block group bg-white/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
+                >
+                  <div className="relative aspect-square overflow-hidden">
+                    <Image
+                      src={nextArtwork.imageUrl}
+                      alt={nextArtwork.imageAlt || nextArtwork.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="40vw"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-serif text-lg font-semibold text-pastel-gray-text truncate">
+                      {nextArtwork.title}
+                    </h3>
+                    <div className="flex items-center justify-between mt-1">
+                      <span className="text-xl font-bold text-pastel-lavender">
+                        {nextArtwork.price.toLocaleString("fr-FR")} €
+                      </span>
+                      <span className="text-sm text-pastel-gray-text/60">
+                        {nextArtwork.technique}
+                      </span>
                     </div>
                   </div>
-                )}
-              </div>
+                </Link>
+              )}
             </div>
           </div>
 
@@ -173,7 +197,7 @@ export default function FeaturedCarousel({
                   ? "bg-pastel-lavender"
                   : "bg-pastel-gray-text/30 hover:bg-pastel-gray-text/50"
               }`}
-              aria-label={`Aller à l'œuvre ${index + 1}`}
+              aria-label={`Aller à l'oeuvre ${index + 1}`}
             />
           ))}
         </div>

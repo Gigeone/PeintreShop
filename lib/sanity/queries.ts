@@ -1,4 +1,5 @@
 import { client } from './client'
+import type { SanityArtwork } from '@/types/artwork'
 
 /**
  * Queries GROQ prédéfinies pour récupérer les données depuis Sanity
@@ -34,7 +35,7 @@ const artworkProjection = `
  * Trie par date de création (plus récentes en premier)
  * Inclut tous les champs nécessaires pour l'affichage
  */
-export async function getAllArtworks() {
+export async function getAllArtworks(): Promise<SanityArtwork[]> {
   const query = `*[_type == "artwork"] | order(_createdAt desc) {
     ${artworkProjection}
   }`
@@ -47,7 +48,7 @@ export async function getAllArtworks() {
  *
  * Filtre uniquement les œuvres avec isAvailable: true
  */
-export async function getAvailableArtworks() {
+export async function getAvailableArtworks(): Promise<SanityArtwork[]> {
   const query = `*[_type == "artwork" && isAvailable == true] | order(_createdAt desc) {
     ${artworkProjection}
   }`
@@ -61,7 +62,7 @@ export async function getAvailableArtworks() {
  * @param slug - Slug de l'œuvre (ex: "lever-de-soleil")
  * @returns Œuvre correspondante ou null si non trouvée
  */
-export async function getArtworkBySlug(slug: string) {
+export async function getArtworkBySlug(slug: string): Promise<SanityArtwork | null> {
   const query = `*[_type == "artwork" && slug.current == $slug][0] {
     ${artworkProjection}
   }`
@@ -75,7 +76,7 @@ export async function getArtworkBySlug(slug: string) {
  * Limite à 5 œuvres maximum pour le carrousel de la page d'accueil
  * Trie par date de création (plus récentes en premier)
  */
-export async function getFeaturedArtworks() {
+export async function getFeaturedArtworks(): Promise<SanityArtwork[]> {
   const query = `*[_type == "artwork" && isFeatured == true && isAvailable == true] | order(_createdAt desc)[0...5] {
     ${artworkProjection}
   }`
@@ -128,7 +129,7 @@ export async function getAvailableArtworkCount() {
  *
  * @param technique - Technique artistique (ex: "Huile sur toile")
  */
-export async function getArtworksByTechnique(technique: string) {
+export async function getArtworksByTechnique(technique: string): Promise<SanityArtwork[]> {
   const query = `*[_type == "artwork" && technique == $technique] | order(_createdAt desc) {
     ${artworkProjection}
   }`
@@ -145,7 +146,7 @@ export async function getArtworksByTechnique(technique: string) {
 export async function getArtworksByPriceRange(
   minPrice: number,
   maxPrice: number
-) {
+): Promise<SanityArtwork[]> {
   const query = `*[_type == "artwork" && price >= $minPrice && price <= $maxPrice && isAvailable == true] | order(price asc) {
     ${artworkProjection}
   }`

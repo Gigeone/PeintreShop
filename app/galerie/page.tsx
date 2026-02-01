@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getAllArtworks } from "@/lib/sanity";
+import type { SanityArtwork } from "@/types/artwork";
 import { generatePageMetadata, getSiteUrl } from "@/lib/seo/metadata";
 import { generateBreadcrumbSchema } from "@/lib/seo/schema";
 
@@ -37,7 +38,7 @@ export default async function GaleriePage() {
 
       <div className="min-h-screen bg-gradient-to-br from-pastel-blue-bg to-pastel-rose-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <h1 className="text-5xl font-bold text-pastel-lavender mb-6">
+        <h1 className="font-serif text-5xl font-bold text-pastel-lavender mb-6">
           Galerie d'Œuvres
         </h1>
         <p className="text-xl text-pastel-gray-text mb-12 max-w-3xl">
@@ -46,7 +47,7 @@ export default async function GaleriePage() {
 
         {/* Grid des œuvres */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {artworks.map((artwork: any) => (
+          {artworks.map((artwork: SanityArtwork) => (
             <div
               key={artwork._id}
               className="bg-white/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"

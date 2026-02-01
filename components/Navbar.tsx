@@ -45,7 +45,7 @@ export default function Navbar() {
           {/* Logo MNGH */}
           <Link
             href="/"
-            className="text-2xl font-bold text-pastel-blue-logo hover:text-pastel-lavender transition-colors duration-300"
+            className="font-serif text-2xl font-bold text-pastel-blue-logo hover:text-pastel-lavender transition-colors duration-300"
             onClick={closeMenu}
           >
             MNGH

@@ -1,46 +1,44 @@
 /**
- * Type définissant la structure d'une œuvre d'art
+ * Type définissant la structure d'une œuvre d'art renvoyée par Sanity
  *
- * Cette interface sera utilisée pour les données mockées (MVP)
- * et sera régénérée automatiquement par Sanity CLI en V1
+ * Correspond à la projection GROQ définie dans lib/sanity/queries.ts
  */
-export interface Artwork {
-  /** Identifiant unique de l'œuvre */
-  id: string;
-
-  /** Slug URL-friendly pour la route dynamique (ex: "paysage-automnal") */
+export interface SanityArtwork {
+  _id: string;
+  _createdAt: string;
+  _updatedAt: string;
   slug: string;
-
-  /** Titre de l'œuvre */
   title: string;
-
-  /** Description détaillée de l'œuvre (2-3 phrases minimum) */
   description: string;
-
-  /** Prix en euros (nombre entier) */
+  imageUrl: string;
+  imageLqip?: string;
+  imageAlt?: string;
   price: number;
-
-  /** Dimensions de l'œuvre en centimètres */
   dimensions: {
-    /** Hauteur en cm */
     height: number;
-    /** Largeur en cm */
     width: number;
   };
-
-  /** Technique artistique (ex: "Huile sur toile", "Acrylique", "Aquarelle") */
   technique: string;
-
-  /** Indique si l'œuvre est disponible à la vente */
   isAvailable: boolean;
-
-  /** Indique si l'œuvre est mise en vedette sur la page d'accueil */
   isFeatured: boolean;
+}
 
-  /**
-   * URL de l'image ou gradient CSS
-   * MVP: URLs Unsplash ou Cloudinary
-   * V1: URL Sanity Asset (ex: "https://cdn.sanity.io/...")
-   */
+/**
+ * Type pour les données mockées (MVP)
+ * @deprecated Utiliser SanityArtwork pour les données Sanity
+ */
+export interface Artwork {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  price: number;
+  dimensions: {
+    height: number;
+    width: number;
+  };
+  technique: string;
+  isAvailable: boolean;
+  isFeatured: boolean;
   imageUrl: string;
 }

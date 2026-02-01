@@ -23,7 +23,7 @@ export default function AProposPage() {
 
       <div className="min-h-screen bg-gradient-to-br from-pastel-rose-bg via-white to-pastel-blue-bg">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <h1 className="text-5xl font-bold text-pastel-violet-logo mb-6">
+        <h1 className="font-serif text-5xl font-bold text-pastel-violet-logo mb-6">
           À propos de l'Artiste
         </h1>
 
@@ -53,7 +53,7 @@ export default function AProposPage() {
 
           <div className="space-y-6">
             <div>
-              <h3 className="text-2xl font-semibold text-pastel-lavender mb-3">
+              <h3 className="font-serif text-2xl font-semibold text-pastel-lavender mb-3">
                 Ma démarche artistique
               </h3>
               <p className="text-pastel-gray-text leading-relaxed">
@@ -65,7 +65,7 @@ export default function AProposPage() {
             </div>
 
             <div>
-              <h3 className="text-2xl font-semibold text-pastel-lavender mb-3">
+              <h3 className="font-serif text-2xl font-semibold text-pastel-lavender mb-3">
                 Techniques utilisées
               </h3>
               <p className="text-pastel-gray-text leading-relaxed">
@@ -77,7 +77,7 @@ export default function AProposPage() {
             </div>
 
             <div>
-              <h3 className="text-2xl font-semibold text-pastel-lavender mb-3">
+              <h3 className="font-serif text-2xl font-semibold text-pastel-lavender mb-3">
                 Expositions et parcours
               </h3>
               <p className="text-pastel-gray-text leading-relaxed">

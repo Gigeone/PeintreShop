@@ -28,7 +28,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-center mb-8">
           {/* Colonne 1: Logo */}
           <div className="text-center md:text-left">
-            <h3 className="text-xl md:text-2xl font-bold text-pastel-blue-logo">
+            <h3 className="font-serif text-xl md:text-2xl font-bold text-pastel-blue-logo">
               MNGH
             </h3>
           </div>

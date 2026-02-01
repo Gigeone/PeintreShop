@@ -67,7 +67,7 @@ export default async function ArtworkDetailPage({
 
   // Navigation circulaire
   const allArtworks = await getAllArtworks();
-  const currentIndex = allArtworks.findIndex((a: any) => a.slug === slug);
+  const currentIndex = allArtworks.findIndex((a) => a.slug === slug);
   const prevIndex = (currentIndex - 1 + allArtworks.length) % allArtworks.length;
   const nextIndex = (currentIndex + 1) % allArtworks.length;
   const prevArtwork = allArtworks[prevIndex];
@@ -147,7 +147,7 @@ export default async function ArtworkDetailPage({
             </div>
 
             {/* Titre */}
-            <h1 className="text-4xl md:text-5xl font-bold text-pastel-violet-logo">
+            <h1 className="font-serif text-4xl md:text-5xl font-bold text-pastel-violet-logo">
               {artwork.title}
             </h1>
 

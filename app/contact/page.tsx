@@ -110,7 +110,7 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pastel-blue-bg to-pastel-rose-bg">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <h1 className="text-5xl font-bold text-pastel-blue-logo mb-6">
+        <h1 className="font-serif text-5xl font-bold text-pastel-blue-logo mb-6">
           Contactez-moi
         </h1>
         <p className="text-xl text-pastel-gray-text mb-12">
@@ -240,12 +240,6 @@ export default function ContactPage() {
             </button>
           </form>
 
-          <div className="mt-8 pt-8 border-t border-pastel-lavender/20">
-            <p className="text-sm text-pastel-gray-text text-center">
-              Note MVP : Ce formulaire valide les données côté client. L'envoi
-              réel par email sera implémenté en V1.
-            </p>
-          </div>
         </div>
       </div>
     </div>

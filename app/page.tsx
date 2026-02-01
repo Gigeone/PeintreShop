@@ -48,7 +48,7 @@ export default async function HomePage() {
           {/* Contenu */}
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div className="text-center">
-              <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-pastel-lavender mb-6 drop-shadow-2xl">
+              <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold text-pastel-lavender mb-6 drop-shadow-2xl">
                 Bienvenue dans la galerie de MNGH
               </h1>
               <p className="text-xl text-white mb-8 max-w-2xl mx-auto drop-shadow-lg">
@@ -81,7 +81,7 @@ export default async function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
-                <h2 className="text-4xl font-bold text-pastel-lavender mb-6">
+                <h2 className="font-serif text-4xl font-bold text-pastel-lavender mb-6">
                   L'Art au Cœur de la Création
                 </h2>
                 <p className="text-lg text-pastel-gray-text mb-4">

@@ -1,8 +1,21 @@
 import type { Metadata } from 'next';
+import { Playfair_Display, Inter } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { getSiteUrl } from '@/lib/seo/metadata';
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
 
 const siteUrl = getSiteUrl();
 
@@ -63,7 +76,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className="antialiased">
+      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
         <Navbar />
         <main>{children}</main>
         <Footer />
