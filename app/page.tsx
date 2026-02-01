@@ -51,7 +51,7 @@ export default async function HomePage() {
               <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold text-pastel-lavender mb-6 drop-shadow-2xl">
                 Bienvenue dans la galerie de MNGH
               </h1>
-              <p className="text-xl text-white mb-8 max-w-2xl mx-auto drop-shadow-lg">
+              <p className="text-xl text-pastel-gray-text bg-white/90 backdrop-blur-sm px-6 py-3 rounded-lg mb-8 max-w-2xl mx-auto shadow-xl">
                 Découvrez des œuvres d'art originales et uniques créées avec
                 passion. Chaque pièce raconte une histoire.
               </p>
