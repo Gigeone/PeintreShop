@@ -41,7 +41,7 @@ export default async function GaleriePage() {
         <h1 className="font-serif text-5xl font-bold text-pastel-lavender mb-6 text-center">
           Galerie d'Œuvres
         </h1>
-        <p className="text-xl text-pastel-gray-text mb-12 max-w-3xl">
+        <p className="text-xl text-pastel-gray-text mb-12 max-w-3xl mx-auto text-center">
           Explorez notre collection d'œuvres originales. Chaque pièce est unique et disponible à l'achat.
         </p>
 
