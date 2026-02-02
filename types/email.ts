@@ -5,7 +5,7 @@
 /**
  * Type d'email envoyé
  */
-export type EmailType = "customer_confirmation" | "artist_notification";
+export type EmailType = "customer_confirmation" | "artist_notification" | "contact_form";
 
 /**
  * Adresse de livraison Stripe
@@ -59,6 +59,16 @@ export interface EmailSendResult {
   success: boolean;
   emailId?: string;
   error?: string;
+}
+
+/**
+ * Données du formulaire de contact
+ */
+export interface ContactFormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
 }
 
 /**

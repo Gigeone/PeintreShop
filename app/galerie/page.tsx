@@ -38,7 +38,7 @@ export default async function GaleriePage() {
 
       <div className="min-h-screen bg-gradient-to-br from-pastel-blue-bg to-pastel-rose-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <h1 className="font-serif text-5xl font-bold text-pastel-lavender mb-6">
+        <h1 className="font-serif text-5xl font-bold text-pastel-lavender mb-6 text-center">
           Galerie d'Œuvres
         </h1>
         <p className="text-xl text-pastel-gray-text mb-12 max-w-3xl">

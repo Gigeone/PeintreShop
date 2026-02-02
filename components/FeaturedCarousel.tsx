@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import type { SanityArtwork } from "@/types/artwork";
-
-const AUTOPLAY_INTERVAL = 5000;
+import { CAROUSEL_CONFIG } from "@/lib/constants";
+import { ArrowLeft, ArrowRight } from "@/components/icons";
 
 interface FeaturedCarouselProps {
   artworks: SanityArtwork[];
@@ -40,7 +40,7 @@ export default function FeaturedCarousel({
   useEffect(() => {
     if (!isPlaying) return;
 
-    const interval = setInterval(goToNext, AUTOPLAY_INTERVAL);
+    const interval = setInterval(goToNext, CAROUSEL_CONFIG.autoPlayInterval);
     return () => clearInterval(interval);
   }, [isPlaying, goToNext]);
 
@@ -146,20 +146,7 @@ export default function FeaturedCarousel({
             onClick={goToPrev}
             aria-label="Slide précédent"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 19.5L8.25 12l7.5-7.5"
-              />
-            </svg>
+            <ArrowLeft />
           </Button>
 
           <Button
@@ -169,20 +156,7 @@ export default function FeaturedCarousel({
             onClick={goToNext}
             aria-label="Slide suivant"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8.25 4.5l7.5 7.5-7.5 7.5"
-              />
-            </svg>
+            <ArrowRight />
           </Button>
         </div>
 

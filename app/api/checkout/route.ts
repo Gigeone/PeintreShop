@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
-import { client } from "@/lib/sanity/client";
+import { clientNoCache } from "@/lib/sanity/client";
 import {
   CheckoutRequestBody,
   CheckoutSuccessResponse,
@@ -45,8 +45,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 3. Récupérer l'œuvre depuis Sanity et vérifier sa disponibilité
-    const artwork = await client.fetch(
+    // 3. Récupérer l'œuvre depuis Sanity et vérifier sa disponibilité (sans CDN pour données temps réel)
+    const artwork = await clientNoCache.fetch(
       `*[_type == "artwork" && _id == $artworkId][0]{
         _id,
         title,

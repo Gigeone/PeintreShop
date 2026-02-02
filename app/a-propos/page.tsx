@@ -23,7 +23,7 @@ export default function AProposPage() {
 
       <div className="min-h-screen bg-gradient-to-br from-pastel-rose-bg via-white to-pastel-blue-bg">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <h1 className="font-serif text-5xl font-bold text-pastel-violet-logo mb-12 text-center">
+          <h1 className="font-serif text-5xl font-bold text-pastel-lavender mb-6 text-center">
             À propos de l'Artiste
           </h1>
 

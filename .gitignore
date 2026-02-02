@@ -18,6 +18,10 @@ build-log.txt
 build-output.txt
 nul
 
+# TypeScript build cache
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
 # OS files
 .DS_Store
 Thumbs.db

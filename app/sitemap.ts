@@ -10,6 +10,7 @@
 import type { MetadataRoute } from "next";
 import { getAllArtworks } from "@/lib/sanity";
 import { getSiteUrl } from "@/lib/seo/metadata";
+import type { SanityArtwork } from "@/types/artwork";
 
 export const revalidate = 3600; // Revalider toutes les heures (ISR)
 
@@ -49,7 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const artworks = await getAllArtworks();
 
-    const artworkRoutes: MetadataRoute.Sitemap = artworks.map((artwork: any) => ({
+    const artworkRoutes: MetadataRoute.Sitemap = artworks.map((artwork: SanityArtwork) => ({
       url: `${siteUrl}/oeuvres/${artwork.slug}`,
       lastModified: artwork._updatedAt || currentDate,
       changeFrequency: "monthly" as const,

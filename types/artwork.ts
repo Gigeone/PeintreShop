@@ -23,22 +23,3 @@ export interface SanityArtwork {
   isFeatured: boolean;
 }
 
-/**
- * Type pour les données mockées (MVP)
- * @deprecated Utiliser SanityArtwork pour les données Sanity
- */
-export interface Artwork {
-  id: string;
-  slug: string;
-  title: string;
-  description: string;
-  price: number;
-  dimensions: {
-    height: number;
-    width: number;
-  };
-  technique: string;
-  isAvailable: boolean;
-  isFeatured: boolean;
-  imageUrl: string;
-}

@@ -2,6 +2,7 @@ import {
   CustomerConfirmationData,
   ArtistNotificationData,
   ShippingAddress,
+  ContactFormData,
 } from "@/types/email";
 
 /**
@@ -522,15 +523,158 @@ export function generateArtistNotificationHTML(
 }
 
 /**
+ * Génère le HTML pour l'email du formulaire de contact
+ */
+export function generateContactFormHTML(data: ContactFormData): string {
+  const { name, email, subject, message } = data;
+
+  return `
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nouveau message de contact</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+    }
+    .header {
+      background: linear-gradient(135deg, #8B7FA8 0%, #D4A5A5 100%);
+      padding: 40px 20px;
+      text-align: center;
+      color: #ffffff;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+    }
+    .content {
+      padding: 40px 30px;
+    }
+    .message-box {
+      background-color: #f9f9f9;
+      border-left: 4px solid #8B7FA8;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .info-row {
+      margin: 10px 0;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .info-row:last-child {
+      border-bottom: none;
+    }
+    .label {
+      font-weight: 600;
+      color: #5A5A5A;
+      margin-bottom: 5px;
+    }
+    .value {
+      color: #333;
+    }
+    .footer {
+      background-color: #f9f9f9;
+      padding: 20px;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      border-top: 1px solid #eee;
+    }
+    .reply-button {
+      display: inline-block;
+      padding: 12px 30px;
+      background-color: #8B7FA8;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>✉️ Nouveau Message de Contact</h1>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <p style="font-size: 16px; color: #333; line-height: 1.6;">
+        Vous avez reçu un nouveau message depuis le formulaire de contact de votre site.
+      </p>
+
+      <div class="message-box">
+        <div class="info-row">
+          <div class="label">De :</div>
+          <div class="value">${name}</div>
+        </div>
+
+        <div class="info-row">
+          <div class="label">Email :</div>
+          <div class="value"><a href="mailto:${email}" style="color: #8B7FA8;">${email}</a></div>
+        </div>
+
+        <div class="info-row">
+          <div class="label">Sujet :</div>
+          <div class="value">${subject}</div>
+        </div>
+
+        <div class="info-row">
+          <div class="label">Message :</div>
+          <div class="value" style="white-space: pre-wrap; margin-top: 10px;">${message}</div>
+        </div>
+      </div>
+
+      <div style="text-align: center;">
+        <a href="mailto:${email}" class="reply-button">
+          Répondre à ${name} →
+        </a>
+      </div>
+
+      <p style="font-size: 14px; color: #666; margin-top: 30px; line-height: 1.6;">
+        <strong>💡 Conseil :</strong> Répondez rapidement pour montrer votre professionnalisme et entretenir le lien avec vos visiteurs.
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p><strong>Notification automatique du formulaire de contact</strong></p>
+      <p style="margin-top: 15px; font-size: 12px; color: #aaa;">
+        © ${new Date().getFullYear()} MNGH - Système de notification
+      </p>
+    </div>
+  </div>
+</body>
+</html>
+  `.trim();
+}
+
+/**
  * Génère le sujet de l'email en fonction du type et des données
  */
 export function generateEmailSubject(
-  type: "customer_confirmation" | "artist_notification",
-  artworkTitle: string
+  type: "customer_confirmation" | "artist_notification" | "contact_form",
+  artworkTitleOrSubject: string
 ): string {
   if (type === "customer_confirmation") {
-    return `Merci pour votre achat - ${artworkTitle}`;
+    return `Merci pour votre achat - ${artworkTitleOrSubject}`;
+  } else if (type === "artist_notification") {
+    return `🎨 Nouvelle vente : ${artworkTitleOrSubject}`;
   } else {
-    return `🎨 Nouvelle vente : ${artworkTitle}`;
+    return `📧 Contact site : ${artworkTitleOrSubject}`;
   }
 }

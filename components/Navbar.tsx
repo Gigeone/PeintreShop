@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { NAV_LINKS } from '@/lib/constants';
 
 /**
  * Navbar Component - Navigation principale du site
@@ -18,14 +19,6 @@ import { useState } from 'react';
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
-
-  // Liens de navigation
-  const navLinks = [
-    { href: '/', label: 'Accueil' },
-    { href: '/galerie', label: 'Galerie' },
-    { href: '/a-propos', label: 'À propos' },
-    { href: '/contact', label: 'Contact' },
-  ];
 
   // Vérifie si un lien est actif
   const isActive = (href: string) => {
@@ -53,7 +46,7 @@ export default function Navbar() {
 
           {/* Navigation Desktop */}
           <ul className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
+            {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
@@ -101,7 +94,7 @@ export default function Navbar() {
         {isMenuOpen && (
           <div className="md:hidden pb-4 animate-fadeIn">
             <ul className="flex flex-col gap-3 pt-4">
-              {navLinks.map((link) => (
+              {NAV_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
