@@ -17,6 +17,17 @@ export function getSiteUrl(): string {
 }
 
 /**
+ * Image de partage par défaut, générée par app/opengraph-image.tsx
+ * (à déclarer explicitement : un openGraph défini dans une page remplace celui hérité)
+ */
+const DEFAULT_SHARE_IMAGE = {
+  url: "/opengraph-image",
+  width: 1200,
+  height: 630,
+  alt: "MNGH — Peintures originales, pièces uniques",
+};
+
+/**
  * Génère une URL canonique absolue
  *
  * @param path - Chemin relatif (ex: "/galerie" ou "/oeuvres/mon-oeuvre")
@@ -50,7 +61,7 @@ export function generateOpenGraph(
     siteName: params.siteName || "MNGH - Artiste Peintre",
     locale: params.locale || "fr_FR",
     type: params.type || "website",
-    images: params.images || [],
+    images: params.images || [DEFAULT_SHARE_IMAGE],
   };
 }
 
@@ -110,7 +121,7 @@ export function generatePageMetadata(params: MetadataParams): Metadata {
       type: params.type,
     }),
     twitter: generateTwitterCard({
-      card: params.images && params.images.length > 0 ? "summary_large_image" : "summary",
+      card: "summary_large_image",
       title: params.title,
       description: params.description,
       images: params.images?.map((img) => img.url),

@@ -123,6 +123,7 @@ export default async function ArtworkDetailPage({
             alt={artwork.imageAlt || artwork.title}
             width={artwork.imageWidth}
             height={artwork.imageHeight}
+            blurDataURL={artwork.imageLqip}
           />
         </div>
 

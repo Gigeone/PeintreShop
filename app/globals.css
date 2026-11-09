@@ -24,3 +24,8 @@
     @apply border-b border-ink pb-1 font-medium transition-colors hover:border-accent hover:text-accent;
   }
 }
+
+/* Bloque le défilement de la page pendant l'agrandissement d'une toile */
+body:has(dialog[open]) {
+  overflow: hidden;
+}

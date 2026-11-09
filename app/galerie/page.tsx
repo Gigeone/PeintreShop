@@ -11,12 +11,6 @@ export const metadata: Metadata = generatePageMetadata({
   title: "Galerie d'Œuvres",
   description: "Explorez notre collection d'œuvres d'art originales et uniques. Chaque pièce est créée avec passion et disponible à l'achat.",
   path: "/galerie",
-  images: [{
-    url: `${getSiteUrl()}/og-galerie.jpg`,
-    width: 1200,
-    height: 630,
-    alt: "Galerie d'œuvres MNGH",
-  }],
 });
 
 export default async function GaleriePage() {
