@@ -21,6 +21,8 @@ const artworkProjection = `
   description,
   "imageUrl": image.asset->url,
   "imageLqip": image.asset->metadata.lqip,
+  "imageWidth": image.asset->metadata.dimensions.width,
+  "imageHeight": image.asset->metadata.dimensions.height,
   "imageAlt": image.alt,
   price,
   dimensions,
@@ -73,11 +75,11 @@ export async function getArtworkBySlug(slug: string): Promise<SanityArtwork | nu
 /**
  * Récupère les œuvres mises en vedette (featured)
  *
- * Limite à 5 œuvres maximum pour le carrousel de la page d'accueil
+ * Limite à 7 œuvres : 1 pour le hero de l'accueil + 6 pour la sélection
  * Trie par date de création (plus récentes en premier)
  */
 export async function getFeaturedArtworks(): Promise<SanityArtwork[]> {
-  const query = `*[_type == "artwork" && isFeatured == true && isAvailable == true] | order(_createdAt desc)[0...5] {
+  const query = `*[_type == "artwork" && isFeatured == true && isAvailable == true] | order(_createdAt desc)[0...7] {
     ${artworkProjection}
   }`
 

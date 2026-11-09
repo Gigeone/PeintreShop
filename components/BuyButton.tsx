@@ -70,10 +70,7 @@ export function BuyButton({
   // Bouton désactivé si l'œuvre n'est pas disponible
   if (!isAvailable) {
     return (
-      <Button
-        disabled
-        className="w-full text-lg py-6 opacity-50 cursor-not-allowed"
-      >
+      <Button disabled size="lg" className="w-full">
         Œuvre vendue
       </Button>
     );
@@ -81,11 +78,7 @@ export function BuyButton({
 
   return (
     <div className="space-y-2">
-      <Button
-        onClick={handleBuyClick}
-        disabled={isLoading}
-        className="w-full bg-pastel-rose-mauve hover:bg-pastel-lavender text-white text-lg py-6 transition-colors duration-300"
-      >
+      <Button onClick={handleBuyClick} disabled={isLoading} size="lg" className="w-full">
         {isLoading ? (
           <span className="flex items-center justify-center gap-2">
             <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -101,7 +94,7 @@ export function BuyButton({
 
       {/* Message d'erreur */}
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+        <div role="alert" className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
           {error}
         </div>
       )}

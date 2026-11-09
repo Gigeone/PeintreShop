@@ -13,6 +13,8 @@ export interface SanityArtwork {
   imageUrl: string;
   imageLqip?: string;
   imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   price: number;
   dimensions: {
     height: number;

@@ -4,116 +4,94 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { NAV_LINKS } from '@/lib/constants';
+import { cn } from '@/lib/utils';
 
 /**
  * Navbar Component - Navigation principale du site
  *
- * Fonctionnalités:
- * - Logo "MNGH" cliquable vers l'accueil
- * - Navigation desktop (liens horizontaux)
- * - Menu mobile avec hamburger icon
- * - Indication visuelle de la page active
- * - Sticky positioning (reste en haut lors du scroll)
- * - Palette de couleurs pastels
+ * - Logo "MNGH" vers l'accueil
+ * - Liens + bouton "Voir les œuvres" sur desktop
+ * - Menu déroulant sur mobile
+ * - Sticky, fond papier légèrement translucide
  */
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  // Vérifie si un lien est actif
-  const isActive = (href: string) => {
-    if (href === '/') {
-      return pathname === '/';
-    }
-    return pathname.startsWith(href);
-  };
-
-  // Ferme le menu mobile
+  const isActive = (href: string) => pathname.startsWith(href);
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <nav className="sticky top-0 z-50 bg-pastel-rose-bg shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo MNGH */}
-          <Link
-            href="/"
-            className="font-serif text-2xl font-bold text-pastel-blue-logo hover:text-pastel-lavender transition-colors duration-300"
-            onClick={closeMenu}
-          >
-            MNGH
+    <nav className="sticky top-0 z-50 border-b border-line bg-paper/95 backdrop-blur">
+      <div className="mx-auto max-w-7xl px-6 sm:px-8">
+        <div className="flex h-16 items-center justify-between md:h-[88px]">
+          <Link href="/" className="flex items-baseline gap-3.5" onClick={closeMenu}>
+            <span className="font-serif text-2xl font-medium tracking-[0.06em] md:text-[30px]">
+              MNGH
+            </span>
+            <span className="hidden text-[13px] uppercase tracking-[0.08em] text-muted sm:inline">
+              Peintre
+            </span>
           </Link>
 
-          {/* Navigation Desktop */}
-          <ul className="hidden md:flex items-center gap-8">
+          {/* Navigation desktop */}
+          <ul className="hidden items-center gap-10 text-[15px] md:flex">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`
-                    text-base font-medium pb-1 transition-all duration-300
-                    ${
-                      isActive(link.href)
-                        ? 'text-pastel-rose-mauve border-b-2 border-pastel-rose-mauve font-semibold'
-                        : 'text-pastel-gray-text hover:text-pastel-lavender border-b-2 border-transparent'
-                    }
-                  `}
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                  className={cn(
+                    'border-b pb-1 transition-colors hover:text-accent',
+                    isActive(link.href) ? 'border-ink font-semibold' : 'border-transparent'
+                  )}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link
+                href="/galerie"
+                className="rounded-full border border-ink px-5 py-3 font-medium transition-colors hover:bg-ink hover:text-paper"
+              >
+                Voir les œuvres
+              </Link>
+            </li>
+          </ul>
+
+          {/* Bouton menu mobile */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="-mr-2.5 flex h-11 w-11 items-center justify-center md:hidden"
+            aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+            aria-expanded={isMenuOpen}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" aria-hidden="true">
+              {isMenuOpen ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 8h16M4 16h16" />}
+            </svg>
+          </button>
+        </div>
+
+        {/* Menu mobile */}
+        {isMenuOpen && (
+          <ul className="flex animate-fadeIn flex-col border-t border-line py-4 md:hidden">
+            {NAV_LINKS.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  onClick={closeMenu}
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                  className={cn(
+                    'block py-3 font-serif text-2xl',
+                    isActive(link.href) && 'text-accent'
+                  )}
                 >
                   {link.label}
                 </Link>
               </li>
             ))}
           </ul>
-
-          {/* Hamburger Button (Mobile) */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden w-7 h-6 flex flex-col justify-between focus:outline-none focus:ring-2 focus:ring-pastel-lavender rounded"
-            aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
-            aria-expanded={isMenuOpen}
-          >
-            {isMenuOpen ? (
-              // Croix (X) quand le menu est ouvert
-              <>
-                <span className="w-full h-0.5 bg-pastel-lavender transform rotate-45 translate-y-2.5 transition-transform duration-300" />
-                <span className="w-full h-0.5 bg-pastel-lavender opacity-0 transition-opacity duration-300" />
-                <span className="w-full h-0.5 bg-pastel-lavender transform -rotate-45 -translate-y-2.5 transition-transform duration-300" />
-              </>
-            ) : (
-              // Hamburger (≡) quand le menu est fermé
-              <>
-                <span className="w-full h-0.5 bg-pastel-lavender transition-transform duration-300" />
-                <span className="w-full h-0.5 bg-pastel-lavender transition-opacity duration-300" />
-                <span className="w-full h-0.5 bg-pastel-lavender transition-transform duration-300" />
-              </>
-            )}
-          </button>
-        </div>
-
-        {/* Menu Mobile (Overlay) */}
-        {isMenuOpen && (
-          <div className="md:hidden pb-4 animate-fadeIn">
-            <ul className="flex flex-col gap-3 pt-4">
-              {NAV_LINKS.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    onClick={closeMenu}
-                    className={`
-                      block px-4 py-3 rounded-lg text-lg font-medium transition-all duration-300
-                      ${
-                        isActive(link.href)
-                          ? 'bg-pastel-rose-mauve/15 text-pastel-rose-mauve font-semibold'
-                          : 'text-pastel-gray-text hover:bg-pastel-lavender/10 hover:text-pastel-lavender'
-                      }
-                    `}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
         )}
       </div>
     </nav>

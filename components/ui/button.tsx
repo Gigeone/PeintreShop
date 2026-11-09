@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "outline" | "ghost";
-  size?: "default" | "sm" | "lg" | "icon";
+  variant?: "default" | "outline" | "light";
+  size?: "default" | "lg";
   asChild?: boolean;
 }
 
@@ -15,20 +15,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp
         className={cn(
-          "inline-flex items-center justify-center rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pastel-lavender disabled:pointer-events-none disabled:opacity-50",
+          "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-colors disabled:pointer-events-none disabled:opacity-50",
           {
-            "bg-pastel-rose-mauve text-white hover:bg-pastel-lavender":
-              variant === "default",
-            "border border-pastel-lavender bg-transparent text-pastel-lavender hover:bg-pastel-lavender/10":
+            "bg-ink text-paper hover:bg-accent": variant === "default",
+            "border border-ink bg-transparent text-ink hover:border-accent hover:text-accent":
               variant === "outline",
-            "hover:bg-pastel-lavender/10 text-pastel-gray-text":
-              variant === "ghost",
+            "bg-paper text-ink hover:bg-surface": variant === "light",
           },
           {
-            "h-10 px-4 py-2": size === "default",
-            "h-9 px-3 text-sm": size === "sm",
-            "h-11 px-8": size === "lg",
-            "h-10 w-10": size === "icon",
+            "h-12 px-6 text-[15px]": size === "default",
+            "h-14 px-8 text-base": size === "lg",
           },
           className
         )}

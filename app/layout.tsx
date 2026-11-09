@@ -1,19 +1,21 @@
 import type { Metadata } from 'next';
-import { Playfair_Display, Inter } from 'next/font/google';
+import { Fraunces, Instrument_Sans } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { getSiteUrl } from '@/lib/seo/metadata';
 
-const playfair = Playfair_Display({
+const fraunces = Fraunces({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  style: ['normal', 'italic'],
+  axes: ['opsz'],
+  variable: '--font-fraunces',
   display: 'swap',
 });
 
-const inter = Inter({
+const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-instrument-sans',
   display: 'swap',
 });
 
@@ -76,7 +78,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
+      <body className={`${instrumentSans.variable} ${fraunces.variable} font-sans antialiased`}>
         <Navbar />
         <main>{children}</main>
         <Footer />
